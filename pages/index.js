@@ -1,24 +1,19 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleClick = () => {
-    console.log('Placing your order.');
-    router.push('/product');
-  }
   return (
-    <div>
-      <h1>Home page</h1>
-      <Link href="/blog">
-        <a>Go to Blog page</a>
-      </Link>
-      <br/>
-      <Link href="/product">
-        <a>Go to Product page</a>
-      </Link>
-      <button onClick={handleClick}>Place order</button>
+    <div className={styles.mainContainer}>
+      <div className={styles.subContainer}>
+        <Link href="/login">
+          <a className={styles.button}>Log in</a>
+        </Link>
+        <br />
+        <Link href="/Signup">
+          <a className={styles.button}>Sign up</a>
+        </Link>
+      </div>
     </div>
   );
 }
