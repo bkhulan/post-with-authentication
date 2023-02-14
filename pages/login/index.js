@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Home.module.css";
 
 export default function Home(req, res) {
   const [userEmail, setEmail] = useState("");
@@ -40,9 +40,6 @@ export default function Home(req, res) {
         </Link>
         <Link href="/signup">
           <a className={styles.navText}>Sign up</a>
-        </Link>
-        <Link href="/login/allData">
-          <a className={styles.navText}>All Data</a>
         </Link>
       </div>
 
