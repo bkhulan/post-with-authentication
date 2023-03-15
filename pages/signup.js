@@ -51,10 +51,7 @@ function Signup() {
         <Link href="/">
           <a className={styles.navText}>Home</a>
         </Link>
-        <Link href="/login/allData">
-          <a className={styles.navText}>All Data</a>
-        </Link>
-        <Link href="/">
+        <Link href="/login">
           <a className={styles.navText}>Log in</a>
         </Link>
       </div>

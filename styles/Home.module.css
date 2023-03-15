@@ -61,3 +61,24 @@
   margin-bottom: 20px;
   outline: none;
 }
+
+/* Post image input */
+
+.postInputSection {
+  position: relative;
+}
+
+.postInputForm {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 30px;
+  top: 30px;
+}
+
+.postInput {
+  width: 200px;
+  padding: 5px;
+  margin-bottom: 20px;
+  outline: none;
+}

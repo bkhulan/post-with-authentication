@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.mainNav}>
-        <Link href="/login/allData">
+        {/* <Link href="/login/allData">
           <a className={styles.navText}>All data</a>
-        </Link>
+        </Link> */}
       </div>
 
       <div className={styles.subContainer}>

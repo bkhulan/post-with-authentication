@@ -1,6 +1,8 @@
 import { useState } from "react";
+// import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import axios from "axios";
 
 import styles from "../../styles/Home.module.css";
 
@@ -24,6 +26,25 @@ export default function Home(req, res) {
       console.log(userEmail.trim());
       console.log(password.trim());
     }
+
+    await axios({
+      method: "post",
+      url: "http://localhost:3000/",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        email: userEmail,
+        password,
+      },
+    })
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        router.push("/loggedinpost");
+      })
+      .catch((e) => {
+        console.log(e, "Error! (Frontend)");
+      });
   };
 
   return (
