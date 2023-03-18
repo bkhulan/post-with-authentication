@@ -33,11 +33,12 @@ export default middlewareHandler.post(async (req, res, next) => {
   try {
     const post = new Post({
       title: req.body.title,
-      myImage: req.file.path,
+      myImage: req.file.filename,
       description: req.body.description,
     });
 
     console.log("Post data ===== ", post);
+    // console.log('process.env ====', process.env);
     const savePost = await post.save();
 
     res.status(200).send(savePost);

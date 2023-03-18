@@ -1,15 +1,18 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 const FormData = require("form-data");
 
-import styles from "../../styles/Home.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 
-function Loggedinpost() {
+import styles from "../../styles/Home.module.css";
+
+function Loggedinpost({ alldata }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
+
   const [imageInput, setImageInput] = useState(null);
 
   const titleHandler = (e) => {
@@ -24,13 +27,13 @@ function Loggedinpost() {
     const file = e.target.files[0];
     setImageInput(file);
 
-    const fileReader = new FileReader();
+    // const fileReader = new FileReader();
 
-    fileReader.onload = function (e) {
-      setImage(e.target.result);
-    };
+    // fileReader.onload = function (e) {
+    //   setImage(e.target.result);
+    // };
 
-    fileReader.readAsDataURL(file);
+    // fileReader.readAsDataURL(file);
   };
 
   const buttonHandler = (e) => {
@@ -61,22 +64,12 @@ function Loggedinpost() {
     }
 
     postData();
-  };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://localhost:3000/api/v1/alldata"
-  //       );
-  //       setAllData(response.data.reverse());
-  //       console.log(response);
-  //     } catch (error) {
-  //       console.log("Error!", error);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+    setTitle("");
+    setDescription("");
+    // setImage(null);
+    setImageInput(null);
+  };
 
   return (
     <div className={styles.container}>
@@ -90,23 +83,25 @@ function Loggedinpost() {
       </div>
 
       <main className={styles.main}>
-        {/* <section>
-          {allData.map((data, index) => (
-            <div key={index}>
-              <p>Title: {data.title}</p>
-              <p>Description: {data.description}</p>
-              <Image
-                loader={({ src }) => {
-                  return `http://localhost:3000/${data.photo}`;
-                }}
-                src={`http://localhost:3000/${data.photo}`}
-                alt="Picture of the author"
-                width={300}
-                height={300}
-              />
-            </div>
-          ))}
-        </section> */}
+        <section>
+          {alldata
+            .slice(0)
+            .reverse()
+            .map((data, index) => (
+              <div key={index}>
+                <p>Title: {data.title}</p>
+                <p>Description: {data.description}</p>
+                <Image
+                  src={`/${data.myImage}`}
+                  alt="Picture of the author"
+                  // placeholder='blur'
+                  // blurDataURL=''
+                  width={300}
+                  height={300}
+                />
+              </div>
+            ))}
+        </section>
         <section className={styles.postInputSection}>
           <form
             onSubmit={buttonHandler}
@@ -136,7 +131,7 @@ function Loggedinpost() {
               accept="image/jpg, image/png"
               className={styles.postInput}
             />
-            <div>{image && <img src={image} style={{ width: "100px" }} />}</div>
+            {/* <div>{image && <img src={image} style={{ width: "100px" }} />}</div> */}
             <button type="submit">Submit</button>
           </form>
         </section>
@@ -146,3 +141,14 @@ function Loggedinpost() {
 }
 
 export default Loggedinpost;
+
+export async function getStaticProps() {
+  const res = await fetch("http://localhost:3000/api/requests/alldata");
+  const alldata = await res.json();
+
+  return {
+    props: {
+      alldata,
+    },
+  };
+}

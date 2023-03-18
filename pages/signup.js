@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Link from "next/link";
 
 import styles from "../styles/Home.module.css";
@@ -23,7 +24,7 @@ function Signup() {
     setAgeName(e.target.value);
   };
 
-  const buttonHandler = (e) => {
+  const buttonHandler = async (e) => {
     e.preventDefault();
     if (
       name.trim() === "" ||
@@ -39,6 +40,25 @@ function Signup() {
       console.log(age.trim());
     }
 
+    async function signUpButtonFunc() {
+      try {
+        const res = await axios.post(
+          "http://localhost:3000/api/requests/adduser",
+          {
+            name,
+            email,
+            password,
+            age,
+          }
+        );
+
+        console.log('Client response ===== ', res);
+      } catch (e) {
+        console.log("Signup is not working!");
+      }
+    }
+
+    signUpButtonFunc();
     // setName('');
     // setEmail('');
     // setPassword('');

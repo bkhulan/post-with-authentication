@@ -6,7 +6,7 @@ import axios from "axios";
 
 import styles from "../../styles/Home.module.css";
 
-export default function Home(req, res) {
+export default function Home() {
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,7 +18,7 @@ export default function Home(req, res) {
     setPassword(e.target.value);
   };
 
-  const buttonHandler = async (e) => {
+  const buttonHandler = (e) => {
     e.preventDefault();
     if (userEmail.trim() === "" || password.trim() === "") {
       return console.log("Enter values!!!");
@@ -27,24 +27,22 @@ export default function Home(req, res) {
       console.log(password.trim());
     }
 
-    await axios({
-      method: "post",
-      url: "http://localhost:3000/",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        email: userEmail,
-        password,
-      },
-    })
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        router.push("/loggedinpost");
-      })
-      .catch((e) => {
+    async function loginButtonFunc() {
+      try {
+        const res = await axios.post(
+          "http://localhost:3000/api/requests/login",
+          {
+            email: userEmail,
+            password,
+          }
+        );
+        console.log(res, "Successfully loggin in! (Frontend)");
+      } catch (e) {
         console.log(e, "Error! (Frontend)");
-      });
+      }
+    }
+
+    loginButtonFunc();
   };
 
   return (
@@ -88,3 +86,33 @@ export default function Home(req, res) {
     </div>
   );
 }
+
+//   try {
+//     const res = await axios.post(
+//       "http://localhost:3000/api/requests/login",
+//       {
+//         email: userEmail,
+//         password,
+//       }
+//     );
+//     console.log(res, "Successfully loggin in! (Frontend)");
+//   } catch (e) {
+//     console.log(e, "Error! (Frontend)");
+//   }
+
+// await axios("http://localhost:3000/api/requests/login", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   data: {
+//     email: userEmail,
+//     password,
+//   },
+// })
+//   .then((res) => {
+//     console.log(res, "Successfully loggin in! (Frontend)");
+//   })
+//   .catch((e) => {
+//     console.log(e, "Error! (Frontend)");
+//   });

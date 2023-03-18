@@ -1,9 +1,14 @@
 /* Home page style --------------------------------- */
 
+.main {
+  display: flex;
+  justify-content: space-around;
+}
+
 .mainContainer {
   padding: 0;
   margin: 0;
-  background: url(../public/sky\ with\ stars.jpg);
+  background: url(../public/background/sky\ with\ stars.jpg);
   background-size: cover;
 }
 
