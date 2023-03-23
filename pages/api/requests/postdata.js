@@ -3,7 +3,7 @@ import connectMongoose from "../../../utils/connectMongoose";
 // import fs from "fs/promises";
 // import path from "path";
 
-import middlewareHandler from "../../../middleware/middlewareHandler";
+import middlewareHandler from "../../../middlewareFolder/middlewareHandler";
 import Post from "../../../models/posts";
 
 export const config = {
@@ -11,14 +11,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-// export const config = {
-//   api: {
-//     bodyParser: {
-//       sizeLimit: "100mb",
-//     },
-//   },
-// };
 
 export default middlewareHandler.post(async (req, res, next) => {
   await connectMongoose();

@@ -1,18 +1,9 @@
 /* Home page style --------------------------------- */
 
-.main {
-  display: flex;
-  justify-content: space-around;
-}
-
 .mainContainer {
   padding: 0;
   margin: 0;
-  background: url(../public/background/sky\ with\ stars.jpg);
-  background-size: cover;
-}
-
-.subContainer {
+  background: #dde5f4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -21,69 +12,39 @@
   position: relative;
 }
 
+.subContainer {
+  padding: 30px;
+  background: #f1f7fe;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.subButton {
+  display: flex;
+  justify-content: center;
+}
+
 .button {
   padding: 10px 20px;
+  margin: 0 10px;
   border-radius: 20px;
-  background: transparent;
+  background: #3e4684;
   font-size: 20px;
   margin-bottom: 15px;
   color: #fff;
-  opacity: 0.5;
+  opacity: 1;
   cursor: pointer;
 }
 
-.button:hover {
-  opacity: 1;
-}
+/* Log in and Sign up page style */
 
-/* Navigation bar */
-
-.mainNav {
-  display: flex;
-  justify-content: flex-end;
-  background-color: rgb(16, 14, 37);
-  color: #fff;
-  height: 70px;
-  align-items: center;
-}
-
-.navText {
-  margin: 0 70px;
-}
-
-.navText:hover {
-  background-color: #fff;
-  color: rgb(16, 14, 37);
-}
-
-/* Log in page style */
-
-.loginUserInput {
-  width: 80%;
-  max-width: 300px;
+.loginSignupInput {
+  display: block;
+  /* max-width: 100%; */
+  width: 100%;
   padding: 10px;
   border-radius: 20px;
   margin-bottom: 20px;
   outline: none;
 }
 
-/* Post image input */
-
-.postInputSection {
-  position: relative;
-}
-
-.postInputForm {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  right: 30px;
-  top: 30px;
-}
-
-.postInput {
-  width: 200px;
-  padding: 5px;
-  margin-bottom: 20px;
-  outline: none;
-}

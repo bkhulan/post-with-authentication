@@ -1,13 +1,16 @@
 const FormData = require("form-data");
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
-import styles from "../../styles/Home.module.css";
+import styles from "./post.module.css";
 
 function Loggedinpost({ alldata }) {
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -71,14 +74,25 @@ function Loggedinpost({ alldata }) {
     setImageInput(null);
   };
 
+  const handelLogOut = async () => {
+    const res = await axios.get("/api/requests/logout");
+    console.log("user === ", res);
+    if (res.status === 200) {
+      router.push("/login");
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div>
       <div className={styles.mainNav}>
-        <Link href="/">
-          <a className={styles.navText}>Home</a>
+        <Link href="/" className={styles.navText}>
+          Home
         </Link>
-        <Link href="/login">
-          <a className={styles.navText}>Sign out</a>
+        <Link href="/login" className={styles.navText}>
+          Sign out
+        </Link>
+        <Link href="" className={styles.navText} onClick={handelLogOut}>
+          Log out
         </Link>
       </div>
 

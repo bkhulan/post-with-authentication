@@ -1,0 +1,45 @@
+.main {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+/* Navigation bar */
+
+.mainNav {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #3e4684;
+  color: #fff;
+  height: 70px;
+  align-items: center;
+}
+
+.navText {
+  margin: 0 70px;
+}
+
+.navText:hover {
+  font-size: 17px;
+}
+
+/* Post image input */
+
+.postInputSection {
+  position: relative;
+}
+
+.postInputForm {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 30px;
+  top: 30px;
+}
+
+.postInput {
+  width: 200px;
+  padding: 5px;
+  margin-bottom: 20px;
+  outline: none;
+}

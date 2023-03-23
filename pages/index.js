@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 
 import styles from "../styles/Home.module.css";
@@ -5,20 +6,20 @@ import styles from "../styles/Home.module.css";
 export default function Home() {
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.mainNav}>
-        {/* <Link href="/login/allData">
-          <a className={styles.navText}>All data</a>
-        </Link> */}
-      </div>
+      <Head>
+        <title>Home</title>
+      </Head>
 
       <div className={styles.subContainer}>
-        <Link href="/login">
-          <a className={styles.button}>Log in</a>
-        </Link>
+        <div className={styles.subButton}>
+          <Link href="/login" className={styles.button}>
+            Log in
+          </Link>
 
-        <Link href="/signup">
-          <a className={styles.button}>Sign up</a>
-        </Link>
+          <Link href="/signup" className={styles.button}>
+            Sign up
+          </Link>
+        </div>
       </div>
     </div>
   );
