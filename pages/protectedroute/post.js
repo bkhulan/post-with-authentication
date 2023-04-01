@@ -1,5 +1,6 @@
 import connectMongoose from "../../utils/connectMongoose";
 import { ImImage } from "react-icons/im";
+
 const FormData = require("form-data");
 
 import { useState } from "react";
@@ -33,6 +34,7 @@ function Loggedinpost({ alldata }) {
   const imageHandler = (e) => {
     const file = e.target.files[0];
     setImageInput(file);
+
     // const fileReader = new FileReader();
     // fileReader.onload = function (e) {
     //   setImage(e.target.result);
@@ -105,7 +107,6 @@ function Loggedinpost({ alldata }) {
                     objectFit="cover"
                   />
                 </div>
-
               </div>
             ))}
         </section>

@@ -6,6 +6,7 @@ const SECRET = process.env.SECRET;
 export async function middleware(req) {
   console.log("Middleware file.");
   const { cookies } = req;
+
   const jwt = cookies.get("CookieJWT")?.value;
 
   if (req.nextUrl.pathname.startsWith("/protectedroute")) {
