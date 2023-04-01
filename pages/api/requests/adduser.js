@@ -22,7 +22,7 @@ export default async function addUser(req, res) {
     });
 
     res.setHeader("Set-Cookie", serialized);
-    res.status(201).send({ user });
+    res.status(201).send({ user, token });
   } catch (e) {
     console.log(e);
     res.status(500).send(e);

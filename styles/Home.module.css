@@ -3,7 +3,7 @@
 .mainContainer {
   padding: 0;
   margin: 0;
-  background: #dde5f4;
+  background-color: #dde5f4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 
 .subContainer {
   padding: 30px;
-  background: #f1f7fe;
+  background-color: #f1f7fe;
   border-radius: 10px;
   width: 400px;
 }
@@ -36,6 +36,15 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  background-color: transparent;
+}
+
+.button:enabled {
+  background-color: #050a30;
+  /* background-color: #3e4684; */
+}
+
 /* Log in and Sign up page style */
 
 .loginSignupInput {
@@ -47,4 +56,10 @@
   margin-bottom: 20px;
   outline: none;
 }
+
+.errorParagraph {
+  color: red;
+  text-align: center;
+}
+
 

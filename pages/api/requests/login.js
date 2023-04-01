@@ -5,9 +5,6 @@ import User from "../../../models/users";
 
 export default async function login(req, res) {
   await connectMongoose();
-  console.log(req.body);
-  //   const parsedData = JSON.parse(req.body);
-  //   console.log('parsedData', parsedData);
   try {
     const user = await User.findByCredentials(
       req.body.email,
@@ -24,9 +21,9 @@ export default async function login(req, res) {
 
     res.setHeader("Set-Cookie", serialized);
     
-    res.status(201).json({ user, token }, "Success~!!!");
+    res.status(201).send({ user, token }, "Success~!!!");
   } catch (e) {
-    res.json({ error: e });
+    res.status(401).send(e);
     console.log("Not logged in!");
   }
 }

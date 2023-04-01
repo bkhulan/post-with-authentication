@@ -1,45 +1,94 @@
 .main {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-}
-
-/* Navigation bar */
-
-.mainNav {
-  display: flex;
-  justify-content: flex-end;
-  background-color: #3e4684;
-  color: #fff;
-  height: 70px;
-  align-items: center;
-}
-
-.navText {
-  margin: 0 70px;
-}
-
-.navText:hover {
-  font-size: 17px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  background-color: #f1f7fe;
+  /* height: 100vh; */
 }
 
 /* Post image input */
 
+.photoDataSection,
 .postInputSection {
-  position: relative;
+  margin: 30px auto;
 }
 
 .postInputForm {
-  position: absolute;
   display: flex;
   flex-direction: column;
-  right: 30px;
-  top: 30px;
 }
 
 .postInput {
-  width: 200px;
-  padding: 5px;
+  width: 300px;
   margin-bottom: 20px;
   outline: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid #cdd9ed;
+  outline: none;
+  line-height: 25px;
+}
+
+.postInput:focus {
+  border-color: #275efe;
+}
+
+.postInputFileHidden {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: scale(3);
+  opacity: 0;
+}
+
+.postInputFileButton {
+  position: relative;
+  padding: 11px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  border-radius: 3px;
+  border: 0;
+  overflow: hidden;
+  background-color: #4f3579;
+  color: #fff;
+  transition: 0.2s;
+  width: 200px;
+}
+
+.postInputFileButton:hover {
+  background-color: #33234e;
+}
+
+.addImageIcon {
+  color: #fff;
+  margin-right: 8px;
+}
+
+.postButton {
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #3e4684;
+  color: #fff;
+  border-radius: 10px;
+  width: 100px;
+}
+
+.postButton:hover {
+  background-color: #32396d;
+}
+
+.postInputFileButton,
+.postButton {
+  margin: 5px auto;
+}
+
+.imageDiv {
+  position: relative;
+  height: 370px;
+  width: 248px;
+}
+
+.divInsideImage {
+  border-radius: 20px;
 }

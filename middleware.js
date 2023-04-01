@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
-import { jwtVerify, SignJWT } from "jose";
+import { jwtVerify } from "jose";
 
 const SECRET = process.env.SECRET;
 
 export async function middleware(req) {
   console.log("Middleware file.");
   const { cookies } = req;
-
   const jwt = cookies.get("CookieJWT")?.value;
-  console.log("JWT === ", jwt);
 
   if (req.nextUrl.pathname.startsWith("/protectedroute")) {
     if (jwt === undefined) {
@@ -42,5 +40,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: "/protectedroute/post",
+  matcher: "/protectedroute/:path*",
 };
