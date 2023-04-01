@@ -39,7 +39,6 @@ function Loggedinpost({ alldata }) {
     // fileReader.onload = function (e) {
     //   setImage(e.target.result);
     // };
-
     // fileReader.readAsDataURL(file);
   };
 

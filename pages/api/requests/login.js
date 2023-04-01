@@ -5,7 +5,7 @@ import User from "../../../models/users";
 
 export default async function login(req, res) {
   await connectMongoose();
-  
+
   try {
     const user = await User.findByCredentials(
       req.body.email,
