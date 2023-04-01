@@ -1,7 +1,5 @@
 import connectMongoose from "../../../utils/connectMongoose";
-// import formidable from "formidable";
-// import fs from "fs/promises";
-// import path from "path";
+import jwt from "jsonwebtoken";
 
 import middlewareHandler from "../../../middlewareFolder/middlewareHandler";
 import Post from "../../../models/posts";
@@ -15,10 +13,10 @@ export const config = {
 export default middlewareHandler.post(async (req, res, next) => {
   await connectMongoose();
   console.log("Connected to the database (upload)!");
-  // console.log("req.headers.contentType ===== ", req.headers['content-type']);
-  console.log("req.body ===== ", req.body);
-  console.log("req.file ===== ", req.file);
-  
+
+  const jwtCookie = req.cookies.CookieJWT;
+  const claims = jwt.verify(jwtCookie, process.env.SECRET);
+
   // const ObjectReqBody = JSON.parse(req.body);
   // console.log("ObjectReqBody", ObjectReqBody);
 
@@ -27,15 +25,17 @@ export default middlewareHandler.post(async (req, res, next) => {
       title: req.body.title,
       myImage: req.file.filename,
       description: req.body.description,
+      userId: claims._id,
     });
-
-    console.log("Post data ===== ", post);
-    // console.log('process.env ====', process.env);
+    
+    console.log('POST ====', post);
+    
     const savePost = await post.save();
-
     res.status(200).send(savePost);
+    
   } catch (e) {
     console.log(e, "Error is occured!");
+    
     res.status(500).send(e);
   }
 });

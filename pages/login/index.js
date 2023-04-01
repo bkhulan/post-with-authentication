@@ -11,12 +11,25 @@ export default function Home() {
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errorUser, setErrorUser] = useState(null);
+  // const [ifDisabled, ifSetDisabled] = useState(true);
+
   const userEmailHandler = (e) => {
     setEmail(e.target.value);
+    // if (e.target.value.length > 1 && password.length > 6) {
+    //   ifSetDisabled(false);
+    // } else {
+    //   ifSetDisabled(true);
+    // }
   };
 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
+    // if (e.target.value.length > 6 && userEmail > 1) {
+    //   ifSetDisabled(false);
+    // } else {
+    //   ifSetDisabled(true);
+    // }
   };
 
   const buttonHandler = (e) => {
@@ -37,14 +50,17 @@ export default function Home() {
             password,
           }
         );
-        console.log(res, "Successfully sent the data! (Frontend)");
+        console.log(res.data, "Successfully sent the data! (Frontend)");
 
         if (res.status === 201) {
           router.push("/protectedroute/post");
-        } else {
-          console.log("Incorrect email or password!!!");
         }
       } catch (e) {
+        if (e.response && e.response.status === 401) {
+          setErrorUser(
+            "There was a problem logging you into Nala. Please try again soon."
+          );
+        }
         console.log(e, "Error! (Frontend)");
       }
     }
@@ -66,6 +82,7 @@ export default function Home() {
             className={styles.loginSignupInput}
             onChange={userEmailHandler}
             value={userEmail}
+            required
           />
           <input
             type="password"
@@ -73,7 +90,9 @@ export default function Home() {
             className={styles.loginSignupInput}
             onChange={passwordHandler}
             value={password}
+            required
           />
+          {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
           <div className={styles.subButton}>
             <button className={styles.button}>Log in</button>
           </div>
@@ -83,32 +102,6 @@ export default function Home() {
   );
 }
 
-//   try {
-//     const res = await axios.post(
-//       "http://localhost:3000/api/requests/login",
-//       {
-//         email: userEmail,
-//         password,
-//       }
-//     );
-//     console.log(res, "Successfully loggin in! (Frontend)");
-//   } catch (e) {
-//     console.log(e, "Error! (Frontend)");
-//   }
-
-// await axios("http://localhost:3000/api/requests/login", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   data: {
-//     email: userEmail,
-//     password,
-//   },
-// })
-//   .then((res) => {
-//     console.log(res, "Successfully loggin in! (Frontend)");
-//   })
-//   .catch((e) => {
-//     console.log(e, "Error! (Frontend)");
-//   });
+Home.getLayout = function PageLayout(page) {
+  return <>{page}</>;
+};

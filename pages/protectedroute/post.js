@@ -1,22 +1,27 @@
+import connectMongoose from "../../utils/connectMongoose";
+import { ImImage } from "react-icons/im";
+
 const FormData = require("form-data");
 
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
+import Head from "next/head";
+import jwt from "jsonwebtoken";
 
-import styles from "./post.module.css";
+import Post from "../../models/posts";
+import Navbar from "../../components/Navbar";
+import styles from "./Post.module.css";
 
 function Loggedinpost({ alldata }) {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  // const [image, setImage] = useState(null);
-
   const [imageInput, setImageInput] = useState(null);
+  const [emptyFile, setEmptyFile] = useState(false);
+  // const [image, setImage] = useState(null);
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -29,9 +34,8 @@ function Loggedinpost({ alldata }) {
   const imageHandler = (e) => {
     const file = e.target.files[0];
     setImageInput(file);
-
+    
     // const fileReader = new FileReader();
-
     // fileReader.onload = function (e) {
     //   setImage(e.target.result);
     // };
@@ -60,6 +64,7 @@ function Loggedinpost({ alldata }) {
       })
         .then((res) => {
           console.log("Successfully sent the data to the backend!");
+          router.replace(router.asPath);
         })
         .catch((e) => {
           console.log(e, "Getting an error!");
@@ -74,45 +79,35 @@ function Loggedinpost({ alldata }) {
     setImageInput(null);
   };
 
-  const handelLogOut = async () => {
-    const res = await axios.get("/api/requests/logout");
-    console.log("user === ", res);
-    if (res.status === 200) {
-      router.push("/login");
-    }
-  };
-
   return (
     <div>
-      <div className={styles.mainNav}>
-        <Link href="/" className={styles.navText}>
-          Home
-        </Link>
-        <Link href="/login" className={styles.navText}>
-          Sign out
-        </Link>
-        <Link href="" className={styles.navText} onClick={handelLogOut}>
-          Log out
-        </Link>
-      </div>
-
+      <Head>
+        <title>Post</title>
+      </Head>
+      <Navbar />
       <main className={styles.main}>
-        <section>
+        <section className={styles.photoDataSection}>
           {alldata
             .slice(0)
             .reverse()
-            .map((data, index) => (
-              <div key={index}>
+            .map((data) => (
+              <div key={data._id}>
+
                 <p>Title: {data.title}</p>
                 <p>Description: {data.description}</p>
-                <Image
-                  src={`/${data.myImage}`}
-                  alt="Picture of the author"
-                  // placeholder='blur'
-                  // blurDataURL=''
-                  width={300}
-                  height={300}
-                />
+
+                <div className={styles.imageDiv}>
+                  <Image
+                  className={styles.divInsideImage}
+                    src={`/${data.myImage}`}
+                    alt={data.title}
+                    // placeholder="blur"
+                    // blurDataURL=""
+                    // priority
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
               </div>
             ))}
         </section>
@@ -130,6 +125,7 @@ function Loggedinpost({ alldata }) {
               placeholder="Title"
               value={title}
               className={styles.postInput}
+              required
             />
             <input
               onChange={descriptionHandler}
@@ -137,16 +133,26 @@ function Loggedinpost({ alldata }) {
               placeholder="Description"
               value={description}
               className={styles.postInput}
+              required
             />
-            <input
-              onChange={imageHandler}
-              type="file"
-              name="image"
-              accept="image/jpg, image/png"
-              className={styles.postInput}
-            />
+            <button htmlFor="picture" className={styles.postInputFileButton}>
+              <ImImage className={styles.addImageIcon} />
+              Choose a photo
+              <input
+                onChange={imageHandler}
+                type="file"
+                name="image"
+                id="picture"
+                accept="image/jpg, image/png"
+                className={styles.postInputFileHidden}
+              />
+            </button>
+            {emptyFile && <p>Not chosen, yet!</p>}
+
+            <button className={styles.postButton} type="submit">
+              Submit
+            </button>
             {/* <div>{image && <img src={image} style={{ width: "100px" }} />}</div> */}
-            <button type="submit">Submit</button>
           </form>
         </section>
       </main>
@@ -156,13 +162,19 @@ function Loggedinpost({ alldata }) {
 
 export default Loggedinpost;
 
-export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/requests/alldata");
-  const alldata = await res.json();
+export async function getServerSideProps({ req, res }) {
+  await connectMongoose();
+  console.log("Connected to the database. (POST IMAGE!)");
+  const { cookies } = req;
+  const jwtCookie = cookies.CookieJWT;
+
+  const claims = jwt.verify(jwtCookie, process.env.SECRET);
+
+  const post = await Post.find({ userId: claims._id });
 
   return {
     props: {
-      alldata,
+      alldata: JSON.parse(JSON.stringify(post)),
     },
   };
 }
