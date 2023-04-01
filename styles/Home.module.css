@@ -3,11 +3,7 @@
 .mainContainer {
   padding: 0;
   margin: 0;
-  background: url(../public/sky\ with\ stars.jpg);
-  background-size: cover;
-}
-
-.subContainer {
+  background-color: #dde5f4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,48 +12,52 @@
   position: relative;
 }
 
+.subContainer {
+  padding: 30px;
+  background-color: #f1f7fe;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.subButton {
+  display: flex;
+  justify-content: center;
+}
+
 .button {
   padding: 10px 20px;
+  margin: 0 10px;
   border-radius: 20px;
-  background: transparent;
+  background: #3e4684;
   font-size: 20px;
   margin-bottom: 15px;
   color: #fff;
-  opacity: 0.5;
+  opacity: 1;
   cursor: pointer;
 }
 
-.button:hover {
-  opacity: 1;
+.button:disabled {
+  background-color: transparent;
 }
 
-/* Navigation bar */
-
-.mainNav {
-  display: flex;
-  justify-content: flex-end;
-  background-color: rgb(16, 14, 37);
-  color: #fff;
-  height: 70px;
-  align-items: center;
+.button:enabled {
+  background-color: #050a30;
+  /* background-color: #3e4684; */
 }
 
-.navText {
-  margin: 0 70px;
-}
+/* Log in and Sign up page style */
 
-.navText:hover {
-  background-color: #fff;
-  color: rgb(16, 14, 37);
-}
-
-/* Log in page style */
-
-.loginUserInput {
-  width: 80%;
-  max-width: 300px;
+.loginSignupInput {
+  display: block;
+  /* max-width: 100%; */
+  width: 100%;
   padding: 10px;
   border-radius: 20px;
   margin-bottom: 20px;
   outline: none;
+}
+
+.errorParagraph {
+  color: red;
+  text-align: center;
 }
