@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 import styles from "../styles/Home.module.css";
 
 function Signup() {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +43,30 @@ function Signup() {
       console.log(age.trim());
     }
 
+    async function signUpButtonFunc() {
+      try {
+        const res = await axios.post(
+          "http://localhost:3000/api/requests/adduser",
+          {
+            name,
+            email,
+            password,
+            age,
+          }
+        );
+
+        console.log("Client response ===== ", res);
+        if (res.status === 201) {
+          router.push("/protectedroute/post");
+        } else {
+          console.log("Incorrect email or password!!!");
+        }
+      } catch (e) {
+        console.log("Signup is not working!");
+      }
+    }
+
+    signUpButtonFunc();
     // setName('');
     // setEmail('');
     // setPassword('');
@@ -47,47 +75,46 @@ function Signup() {
 
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.mainNav}>
-        <Link href="/">
-          <a className={styles.navText}>Home</a>
-        </Link>
-        <Link href="/login/allData">
-          <a className={styles.navText}>All Data</a>
-        </Link>
-        <Link href="/">
-          <a className={styles.navText}>Log in</a>
-        </Link>
-      </div>
       <form onSubmit={buttonHandler} className={styles.subContainer}>
-        <input
-          type="text"
-          placeholder="Name"
-          className={styles.loginUserInput}
-          onChange={nameHandler}
-          value={name}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className={styles.loginUserInput}
-          onChange={emailHandler}
-          value={email}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className={styles.loginUserInput}
-          onChange={passwordHandler}
-          value={password}
-        />
-        <input
-          type="number"
-          placeholder="Age"
-          className={styles.loginUserInput}
-          onChange={ageHandler}
-          value={age}
-        />
-        <button className={styles.button}>Submit</button>
+        <div className={styles.subInputStyle}>
+          <input
+            type="text"
+            placeholder="Name"
+            className={styles.loginSignupInput}
+            onChange={nameHandler}
+            value={name}
+          />
+        </div>
+        <div className={styles.subInputStyle}>
+          <input
+            type="email"
+            placeholder="Email"
+            className={styles.loginSignupInput}
+            onChange={emailHandler}
+            value={email}
+          />
+        </div>
+        <div className={styles.subInputStyle}>
+          <input
+            type="password"
+            placeholder="Password"
+            className={styles.loginSignupInput}
+            onChange={passwordHandler}
+            value={password}
+          />
+        </div>
+        <div className={styles.subInputStyle}>
+          <input
+            type="number"
+            placeholder="Age"
+            className={styles.loginSignupInput}
+            onChange={ageHandler}
+            value={age}
+          />
+        </div>
+        <div className={styles.subButton}>
+          <button className={styles.button}>Submit</button>
+        </div>
       </form>
     </div>
   );
