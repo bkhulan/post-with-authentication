@@ -22,6 +22,7 @@ export default async function login(req, res) {
 
     res.setHeader("Set-Cookie", serialized);
     res.status(201).send({ user, token }, "Success~!!!");
+    
   } catch (e) {
     res.status(401).send(e);
     console.log("Not logged in!");

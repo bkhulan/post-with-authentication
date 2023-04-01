@@ -12,7 +12,6 @@ export const config = {
 
 export default middlewareHandler.post(async (req, res, next) => {
   await connectMongoose();
-
   console.log("Connected to the database (upload)!");
 
   const jwtCookie = req.cookies.CookieJWT;
@@ -28,13 +27,14 @@ export default middlewareHandler.post(async (req, res, next) => {
       description: req.body.description,
       userId: claims._id,
     });
-
     console.log("POST ====", post);
-
+    
     const savePost = await post.save();
     res.status(200).send(savePost);
+    
   } catch (e) {
     console.log(e, "Error is occured!");
+    
     res.status(500).send(e);
   }
 });
