@@ -2,3 +2,4 @@
 .next
 .env.local
 /public
+/back-end/node_modules
