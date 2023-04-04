@@ -12,17 +12,17 @@ export default async function addUser(req, res) {
   try {
     await user.save();
 
-    const token = await user.generateAuthToken();
+    // const token = await user.generateAuthToken();
 
-    const serialized = serialize("CookieJWT", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-    });
+    // const serialized = serialize("CookieJWT", token, {
+    //   httpOnly: true,
+    //   sameSite: "strict",
+    //   maxAge: 60 * 60 * 24 * 7,
+    //   path: "/",
+    // });
 
-    res.setHeader("Set-Cookie", serialized);
-    res.status(201).send({ user, token });
+    // res.setHeader("Set-Cookie", serialized);
+    res.status(201).send({ user });
   } catch (e) {
     console.log(e);
     res.status(500).send(e);
