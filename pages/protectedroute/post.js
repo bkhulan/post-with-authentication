@@ -34,7 +34,7 @@ function Loggedinpost({ alldata }) {
   const imageHandler = (e) => {
     const file = e.target.files[0];
     setImageInput(file);
-    
+
     // const fileReader = new FileReader();
     // fileReader.onload = function (e) {
     //   setImage(e.target.result);
@@ -85,31 +85,6 @@ function Loggedinpost({ alldata }) {
       </Head>
       <Navbar />
       <main className={styles.main}>
-        <section className={styles.photoDataSection}>
-          {alldata
-            .slice(0)
-            .reverse()
-            .map((data) => (
-              <div key={data._id}>
-
-                <p>Title: {data.title}</p>
-                <p>Description: {data.description}</p>
-
-                <div className={styles.imageDiv}>
-                  <Image
-                  className={styles.divInsideImage}
-                    src={`/${data.myImage}`}
-                    alt={data.title}
-                    // placeholder="blur"
-                    // blurDataURL=""
-                    // priority
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              </div>
-            ))}
-        </section>
         <section className={styles.postInputSection}>
           <form
             onSubmit={buttonHandler}
@@ -153,6 +128,30 @@ function Loggedinpost({ alldata }) {
             </button>
             {/* <div>{image && <img src={image} style={{ width: "100px" }} />}</div> */}
           </form>
+        </section>
+        <section className={styles.photoDataSection}>
+          {alldata
+            .slice(0)
+            .reverse()
+            .map((data) => (
+              <div key={data._id} className={styles.postContainer}>
+                <p>Title: {data.title}</p>
+                <p>Description: {data.description}</p>
+
+                <div className={styles.imageDiv}>
+                  <Image
+                    className={styles.divInsideImage}
+                    src={`/${data.myImage}`}
+                    alt={data.title}
+                    // placeholder="blur"
+                    // blurDataURL=""
+                    // priority
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              </div>
+            ))}
         </section>
       </main>
     </div>
