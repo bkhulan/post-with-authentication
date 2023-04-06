@@ -13,7 +13,7 @@ function Profile({ dataUser }) {
         <div key={dataUser._id}>
           <p>Name: {dataUser.name}</p>
           <p>Email: {dataUser.email}</p>
-          <p>Age: {dataUser.age}</p>
+          <p>Birth date: {dataUser.birthDate}</p>
         </div>
       </main>
     </>
