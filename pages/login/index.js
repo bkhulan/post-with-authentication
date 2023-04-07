@@ -57,9 +57,7 @@ export default function Home() {
         }
       } catch (e) {
         if (e.response && e.response.status === 401) {
-          setErrorUser(
-            "There was a problem logging you into Nala. Please try again soon."
-          );
+          setErrorUser("You have entered an invalid username or password.");
         }
         console.log(e, "Error! (Frontend)");
       }

@@ -1,15 +1,15 @@
 .main {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  /* display: flex;
+  justify-content: center; */
   background-color: #f1f7fe;
-  /* height: 100vh; */
+  padding: 50px;
 }
 
 /* Post image input */
 
-.photoDataSection,
 .postInputSection {
-  margin: 30px auto;
+  display: flex;
+  justify-content: center;
 }
 
 .postInputForm {
@@ -92,3 +92,5 @@
 .divInsideImage {
   border-radius: 20px;
 }
+
+

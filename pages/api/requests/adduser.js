@@ -1,27 +1,19 @@
 import connectMongoose from "../../../utils/connectMongoose";
-import { serialize } from "cookie";
-
 import User from "../../../models/users";
 
 export default async function addUser(req, res) {
   await connectMongoose();
   console.log("Connected to the database!");
   console.log("req.body ===== ", req.body);
-  const user = new User(req.body);
+
+  const duplicated = await User.findOne({ email: req.body.email });
+  if (duplicated) {
+    return res.status(404).send("There is already an account with this email.");
+  }
 
   try {
+    const user = new User(req.body);
     await user.save();
-
-    // const token = await user.generateAuthToken();
-
-    // const serialized = serialize("CookieJWT", token, {
-    //   httpOnly: true,
-    //   sameSite: "strict",
-    //   maxAge: 60 * 60 * 24 * 7,
-    //   path: "/",
-    // });
-
-    // res.setHeader("Set-Cookie", serialized);
     res.status(201).send({ user });
   } catch (e) {
     console.log(e);
