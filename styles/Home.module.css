@@ -52,9 +52,15 @@
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
-  border: 1px solid black;
+  /* border: 1px solid #a5abd8; */
+  border: 1px solid #dddddd;
   outline: none;
 }
+
+/* .loginSignupInput:required {
+  border-color: #800000;
+  border-width: 3px;
+} */
 
 .errorParagraph {
   color: red;
@@ -63,7 +69,7 @@
 
 .birthDateSelect {
   display: inline-block;
-  border: none;
+  border: 1px solid #dddddd;
   border-radius: 3px;
   padding: 10px;
   outline: none;
@@ -77,6 +83,10 @@
 
 .birthDateStyle > select:nth-child(3) {
   margin-right: 0;
+}
+
+.error {
+  border-color: red;
 }
 
 /* Protected route styles */

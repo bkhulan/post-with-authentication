@@ -113,8 +113,6 @@ function Signup() {
           setDuplicateEmail(false);
         }
       }
-
-
     }
     signUpButtonFunc();
   };
@@ -129,8 +127,8 @@ function Signup() {
           <input
             type="text"
             placeholder="Name"
-            className={styles.loginSignupInput}
             onChange={nameHandler}
+            className={styles.loginSignupInput}
             value={name}
             required
           />
@@ -139,7 +137,9 @@ function Signup() {
           <input
             type="email"
             placeholder="Email"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              !emailValid || duplicateEmail ? styles.error : ""
+            }`}
             onChange={emailHandler}
             value={email}
             required
@@ -149,7 +149,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError || !passwordValid ? styles.error : ""
+            }`}
             onChange={passwordHandler}
             value={password}
             required
@@ -159,7 +161,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Confirm password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError ? styles.error : ""
+            }`}
             onChange={confirmPasswordHandler}
             value={confirmPassword}
             required
@@ -170,7 +174,9 @@ function Signup() {
           <select
             name="Month"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={monthHandler}
           >
             <option label="Month" value=""></option>
@@ -190,7 +196,9 @@ function Signup() {
           <select
             name="Day"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={dayHandler}
           >
             <option label="Day" value=""></option>
@@ -229,7 +237,9 @@ function Signup() {
           <select
             name="Year"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={yearHandler}
           >
             <option value="" label="Year"></option>
