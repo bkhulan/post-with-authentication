@@ -308,6 +308,9 @@ function Signup() {
         ) : (
           ""
         )}
+        {duplicateEmail && (
+          <p className={styles.errorParagraph}>{duplicateEmail}</p>
+        )}
         <div className={styles.subButton}>
           <button className={styles.button}>Submit</button>
         </div>
