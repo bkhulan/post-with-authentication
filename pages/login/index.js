@@ -57,7 +57,7 @@ export default function Home() {
         }
       } catch (e) {
         if (e.response && e.response.status === 401) {
-          setErrorUser("You have entered an invalid username or password.");
+          setErrorUser(e.response.data);
         }
         console.log(e, "Error! (Frontend)");
       }

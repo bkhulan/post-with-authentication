@@ -5,6 +5,8 @@ import User from "../../models/users";
 import Image from "next/image";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
+import { FaSignature } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import styles from "./Profile.module.css";
 import stylesHome from "../../styles/Home.module.css";
 
@@ -13,10 +15,6 @@ function Profile({ dataUser }) {
     <>
       <Head>
         <title>Profile</title>
-        <script
-          src="https://kit.fontawesome.com/eb0ac8b9ac.js"
-          crossorigin="anonymous"
-        ></script>
       </Head>
       <Navbar />
       <main className={stylesHome.main}>
@@ -24,7 +22,7 @@ function Profile({ dataUser }) {
           <div key={dataUser._id} className={styles.profileSectionDiv}>
             <div className={styles.columnContainer}>
               <div className={styles.iconDiv}>
-                <i class="fa fa-signature"></i>
+                <FaSignature />
               </div>
               <div>
                 <p className={styles.valuesFromData}>{dataUser.name}</p>
@@ -34,7 +32,7 @@ function Profile({ dataUser }) {
 
             <div className={styles.columnContainer}>
               <div className={styles.iconDiv}>
-                <i class="fa fa-envelope"></i>
+                <MdEmail />
               </div>
               <div>
                 <p>{dataUser.email}</p>
@@ -44,7 +42,7 @@ function Profile({ dataUser }) {
 
             <div className={styles.columnContainer}>
               <div className={styles.iconDiv}>
-                <Image src={"/icon/birthday-cake.png"} width={19} height={19} />
+                <Image alt="Birthday" src={"/icon/birthday-cake.png"} width={19} height={19} />
               </div>
               <div>
                 <p className={styles.valuesFromData}>{dataUser.birthDate}</p>

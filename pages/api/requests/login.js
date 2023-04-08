@@ -11,6 +11,7 @@ export default async function login(req, res) {
       req.body.email,
       req.body.password
     );
+
     const token = await user.generateAuthToken();
 
     const serialized = serialize("CookieJWT", token, {
@@ -22,9 +23,13 @@ export default async function login(req, res) {
 
     res.setHeader("Set-Cookie", serialized);
     res.status(201).send({ user, token }, "Success~!!!");
-    
-  } catch (e) {
-    res.status(401).send(e);
-    console.log("Not logged in!");
+  } catch (error) {
+    if (error.toString() === "Error: Email is not registered!") {
+      res.status(401).send("Email is not registered!");
+    } else if (error.toString() === "Error: Password incorrect!") {
+      res.status(401).send("Password incorrect!");
+    } else {
+      res.status(401).send(error, "Not logged in!");
+    }
   }
 }
