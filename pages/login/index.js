@@ -51,7 +51,7 @@ export default function Home() {
           }
         );
         console.log(res.data, "Successfully sent the data! (Frontend)");
-
+   
         if (res.status === 201) {
           router.push("/protectedroute/post");
         }

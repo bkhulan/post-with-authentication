@@ -1,15 +1,10 @@
-.main {
-  /* display: flex;
-  justify-content: center; */
-  background-color: #f1f7fe;
-  padding: 50px;
-}
-
 /* Post image input */
 
 .postInputSection {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
 .postInputForm {
@@ -92,5 +87,3 @@
 .divInsideImage {
   border-radius: 20px;
 }
-
-

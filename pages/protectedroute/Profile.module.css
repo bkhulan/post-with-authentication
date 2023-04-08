@@ -1,3 +1,36 @@
-.main {
-margin: 90px 200px;
+.profileSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  flex-direction: column;
+}
+
+.profileSectionDiv {
+  background: rgb(255, 255, 255);
+  padding: 50px;
+  width: 400px;
+  border-radius: 20px;
+  box-shadow: 5px 10px 15px rgb(231, 231, 231);
+}
+
+.columnContainer {
+  display: flex;
+  position: relative;
+}
+
+.iconDiv {
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+  padding-right: 18px;
+}
+
+.valuesFromData::first-letter {
+  text-transform: capitalize;
+}
+
+.properties {
+  font-size: 14px;
+  color: #65676b;
 }

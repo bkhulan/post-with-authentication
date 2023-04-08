@@ -42,7 +42,6 @@
 
 .button:enabled {
   background-color: #050a30;
-  /* background-color: #3e4684; */
 }
 
 /* Log in and Sign up page style */
@@ -78,4 +77,10 @@
 
 .birthDateStyle > select:nth-child(3) {
   margin-right: 0;
+}
+
+/* Protected route styles */
+
+.main {
+  padding: 50px;
 }
