@@ -8,7 +8,7 @@ export default async function addUser(req, res) {
 
   const duplicated = await User.findOne({ email: req.body.email });
   if (duplicated) {
-    return res.status(404).send("There is already an account with this email.");
+    return res.status(400).send("There is already an account with this email.");
   }
 
   try {

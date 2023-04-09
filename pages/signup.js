@@ -15,13 +15,12 @@ function Signup() {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
-  // const [birthDate, setBirthDate] = useState("");
 
   const [emailValid, setEmailValid] = useState(true);
-  const [agePositive, setAgePositive] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
   const [confirmePasswordError, setConfirmPasswordError] = useState(false);
-  const [duplicateEmail, setDuplicateEmail] = useState(null);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [invalidBirthday, setInvalidBirthday] = useState(false);
 
   const nameHandler = (e) => {
     setName(e.target.value);
@@ -45,12 +44,20 @@ function Signup() {
     setYear(e.target.value);
   };
 
-  const buttonHandler = (e) => {
+  function resetValidationErrors() {
+    setEmailValid(true);
+    setPasswordValid(true);
+    setConfirmPasswordError(false);
+    setDuplicateEmail(false);
+    setInvalidBirthday(false);
+  }
+
+  const buttonHandler = async (e) => {
     e.preventDefault();
 
-    if (email.includes(".com")) {
-      setEmailValid(true);
-    } else {
+    resetValidationErrors();
+
+    if (!email.includes(".com")) {
       setEmailValid(false);
       return;
     }
@@ -58,43 +65,53 @@ function Signup() {
     if (password.length < 7) {
       setPasswordValid(false);
       return;
-    } else {
-      setPasswordValid(true);
     }
 
-    if (password === confirmPassword) {
-      setConfirmPasswordError(false);
-    } else {
+    if (password !== confirmPassword) {
       setConfirmPasswordError(true);
       return;
     }
 
-    async function signUpButtonFunc() {
-      try {
-        const res = await axios.post(
-          "http://localhost:3000/api/requests/adduser",
-          {
-            name,
-            email,
-            password,
-            birthDate: `${month}/${day}/${year}`,
-          }
-        );
+    let today = new Date();
+    let userBirthday = new Date(`${year}-${month}-${day}`);
 
-        console.log("Client response ===== ", res);
-        console.log(name.trim());
-        console.log(email.trim());
-        console.log(password.trim());
-        console.log(`${month}/${day}/${year}`);
-        if (res.status === 201) {
-          router.push("/login");
-        }
-      } catch (e) {
-        setDuplicateEmail(e.response.data);
-      }
+    let msSince = today.getTime() - userBirthday.getTime();
+    let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
+    let yearsSince = Math.floor(daysSince / 365);
+
+    console.log("Day and year.", daysSince, yearsSince);
+
+    if (yearsSince < 16) {
+      setInvalidBirthday(true);
+      return;
     }
 
-    signUpButtonFunc();
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/requests/adduser",
+        {
+          name,
+          email,
+          password,
+          birthDate: new Date(`${month} ${day} ${year}`),
+        }
+      );
+
+      console.log("Client response ===== ", res);
+      console.log(name.trim());
+      console.log(email.trim());
+      console.log(password.trim());
+      console.log(`${year}-${month}-${day}`);
+
+      if (res.status === 201) {
+        router.push("/login");
+      }
+    } catch (e) {
+      if (e.response.data) {
+        setDuplicateEmail(true);
+        return;
+      }
+    }
   };
 
   return (
@@ -107,8 +124,8 @@ function Signup() {
           <input
             type="text"
             placeholder="Name"
-            className={styles.loginSignupInput}
             onChange={nameHandler}
+            className={styles.loginSignupInput}
             value={name}
             required
           />
@@ -117,7 +134,9 @@ function Signup() {
           <input
             type="email"
             placeholder="Email"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              !emailValid || duplicateEmail ? styles.error : ""
+            }`}
             onChange={emailHandler}
             value={email}
             required
@@ -127,7 +146,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError || !passwordValid ? styles.error : ""
+            }`}
             onChange={passwordHandler}
             value={password}
             required
@@ -137,7 +158,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Confirm password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError ? styles.error : ""
+            }`}
             onChange={confirmPasswordHandler}
             value={confirmPassword}
             required
@@ -148,7 +171,9 @@ function Signup() {
           <select
             name="Month"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={monthHandler}
           >
             <option label="Month" value=""></option>
@@ -168,7 +193,9 @@ function Signup() {
           <select
             name="Day"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={dayHandler}
           >
             <option label="Day" value=""></option>
@@ -207,7 +234,9 @@ function Signup() {
           <select
             name="Year"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={yearHandler}
           >
             <option value="" label="Year"></option>
@@ -247,19 +276,34 @@ function Signup() {
             <option value="1990">1990</option>
           </select>
         </div>
-        {!agePositive && (
-          <p className={styles.errorParagraph}>
-            Age must be a positive number!
-          </p>
+        {!emailValid ? (
+          <p className={styles.errorParagraph}>Invalid email!</p>
+        ) : (
+          ""
         )}
-        {!emailValid && <p className={styles.errorParagraph}>Invalid email!</p>}
-        {confirmePasswordError && (
+        {confirmePasswordError ? (
           <p className={styles.errorParagraph}>Passwords don't match!</p>
+        ) : (
+          ""
         )}
-        {!passwordValid && (
+        {!passwordValid ? (
           <p className={styles.errorParagraph}>
             Password must be at least 7 characters.
           </p>
+        ) : (
+          ""
+        )}
+        {duplicateEmail ? (
+          <p className={styles.errorParagraph}>
+            There is already an account with this email.
+          </p>
+        ) : (
+          ""
+        )}
+        {invalidBirthday ? (
+          <p className={styles.errorParagraph}>Sorry, you're under 16!</p>
+        ) : (
+          ""
         )}
         {duplicateEmail && (
           <p className={styles.errorParagraph}>{duplicateEmail}</p>
