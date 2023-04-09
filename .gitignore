@@ -3,3 +3,4 @@
 .env.local
 /public
 yarn.lock
+package-lock.json
