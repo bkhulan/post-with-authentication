@@ -13,6 +13,7 @@ import jwt from "jsonwebtoken";
 import Post from "../../models/posts";
 import Navbar from "../../components/Navbar";
 import styles from "./Post.module.css";
+import stylesHome from "../../styles/Home.module.css";
 
 function Loggedinpost({ alldata }) {
   const router = useRouter();
@@ -84,7 +85,7 @@ function Loggedinpost({ alldata }) {
         <title>Post</title>
       </Head>
       <Navbar />
-      <main className={styles.main}>
+      <main className={stylesHome.main}>
         <section className={styles.postInputSection}>
           <form
             onSubmit={buttonHandler}
@@ -129,6 +130,7 @@ function Loggedinpost({ alldata }) {
             {/* <div>{image && <img src={image} style={{ width: "100px" }} />}</div> */}
           </form>
         </section>
+        
         <section className={styles.photoDataSection}>
           {alldata
             .slice(0)
