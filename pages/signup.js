@@ -15,13 +15,12 @@ function Signup() {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
-  // const [birthDate, setBirthDate] = useState("");
 
   const [emailValid, setEmailValid] = useState(true);
-  const [agePositive, setAgePositive] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
   const [confirmePasswordError, setConfirmPasswordError] = useState(false);
-  const [duplicateEmail, setDuplicateEmail] = useState(null);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [invalidBirthday, setInvalidBirthday] = useState(false);
 
   const nameHandler = (e) => {
     setName(e.target.value);
@@ -69,6 +68,22 @@ function Signup() {
       return;
     }
 
+    let today = new Date();
+    let userBirthday = new Date(`${year}-${month}-${day}`);
+
+    let msSince = today.getTime() - userBirthday.getTime();
+    let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
+    let yearsSince = Math.floor(daysSince / 365);
+
+    console.log("Day and year.", daysSince, yearsSince);
+
+    if (yearsSince < 16) {
+      setInvalidBirthday(true);
+      return;
+    } else {
+      setInvalidBirthday(false);
+    }
+
     async function signUpButtonFunc() {
       try {
         const res = await axios.post(
@@ -77,7 +92,7 @@ function Signup() {
             name,
             email,
             password,
-            birthDate: `${month}/${day}/${year}`,
+            birthDate: new Date(`${month} ${day} ${year}`),
           }
         );
 
@@ -85,15 +100,20 @@ function Signup() {
         console.log(name.trim());
         console.log(email.trim());
         console.log(password.trim());
-        console.log(`${month}/${day}/${year}`);
+        console.log(`${year}-${month}-${day}`);
+
         if (res.status === 201) {
           router.push("/login");
         }
       } catch (e) {
-        setDuplicateEmail(e.response.data);
+        if (e.response.data) {
+          setDuplicateEmail(true);
+          return;
+        } else {
+          setDuplicateEmail(false);
+        }
       }
     }
-
     signUpButtonFunc();
   };
 
@@ -107,8 +127,8 @@ function Signup() {
           <input
             type="text"
             placeholder="Name"
-            className={styles.loginSignupInput}
             onChange={nameHandler}
+            className={styles.loginSignupInput}
             value={name}
             required
           />
@@ -117,7 +137,9 @@ function Signup() {
           <input
             type="email"
             placeholder="Email"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              !emailValid || duplicateEmail ? styles.error : ""
+            }`}
             onChange={emailHandler}
             value={email}
             required
@@ -127,7 +149,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError || !passwordValid ? styles.error : ""
+            }`}
             onChange={passwordHandler}
             value={password}
             required
@@ -137,7 +161,9 @@ function Signup() {
           <input
             type="password"
             placeholder="Confirm password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${
+              confirmePasswordError ? styles.error : ""
+            }`}
             onChange={confirmPasswordHandler}
             value={confirmPassword}
             required
@@ -148,7 +174,9 @@ function Signup() {
           <select
             name="Month"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={monthHandler}
           >
             <option label="Month" value=""></option>
@@ -168,7 +196,9 @@ function Signup() {
           <select
             name="Day"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={dayHandler}
           >
             <option label="Day" value=""></option>
@@ -207,7 +237,9 @@ function Signup() {
           <select
             name="Year"
             required
-            className={styles.birthDateSelect}
+            className={`${styles.birthDateSelect} ${
+              invalidBirthday ? styles.error : ""
+            }`}
             onChange={yearHandler}
           >
             <option value="" label="Year"></option>
@@ -247,19 +279,34 @@ function Signup() {
             <option value="1990">1990</option>
           </select>
         </div>
-        {!agePositive && (
-          <p className={styles.errorParagraph}>
-            Age must be a positive number!
-          </p>
+        {!emailValid ? (
+          <p className={styles.errorParagraph}>Invalid email!</p>
+        ) : (
+          ""
         )}
-        {!emailValid && <p className={styles.errorParagraph}>Invalid email!</p>}
-        {confirmePasswordError && (
+        {confirmePasswordError ? (
           <p className={styles.errorParagraph}>Passwords don't match!</p>
+        ) : (
+          ""
         )}
-        {!passwordValid && (
+        {!passwordValid ? (
           <p className={styles.errorParagraph}>
             Password must be at least 7 characters.
           </p>
+        ) : (
+          ""
+        )}
+        {duplicateEmail ? (
+          <p className={styles.errorParagraph}>
+            There is already an account with this email.
+          </p>
+        ) : (
+          ""
+        )}
+        {invalidBirthday ? (
+          <p className={styles.errorParagraph}>Sorry, you're under 16!</p>
+        ) : (
+          ""
         )}
         {duplicateEmail && (
           <p className={styles.errorParagraph}>{duplicateEmail}</p>
