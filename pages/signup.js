@@ -39,17 +39,28 @@ function Signup() {
   };
   const dayHandler = (e) => {
     setDay(e.target.value);
+
+  const yearHandler = (e) => {
+    setYear(e.target.value);
   };
   const yearHandler = (e) => {
     setYear(e.target.value);
   };
 
-  const buttonHandler = (e) => {
+  function resetValidationErrors() {
+    setEmailValid(true);
+    setPasswordValid(true);
+    setConfirmPasswordError(false);
+    setDuplicateEmail(false);
+    setInvalidBirthday(false);
+  }
+
+  const buttonHandler = async (e) => {
     e.preventDefault();
 
-    if (email.includes(".com")) {
-      setEmailValid(true);
-    } else {
+    resetValidationErrors();
+
+    if (!email.includes(".com")) {
       setEmailValid(false);
       return;
     }
@@ -57,13 +68,9 @@ function Signup() {
     if (password.length < 7) {
       setPasswordValid(false);
       return;
-    } else {
-      setPasswordValid(true);
     }
 
-    if (password === confirmPassword) {
-      setConfirmPasswordError(false);
-    } else {
+    if (password !== confirmPassword) {
       setConfirmPasswordError(true);
       return;
     }
@@ -80,41 +87,34 @@ function Signup() {
     if (yearsSince < 16) {
       setInvalidBirthday(true);
       return;
-    } else {
-      setInvalidBirthday(false);
     }
 
-    async function signUpButtonFunc() {
-      try {
-        const res = await axios.post(
-          "http://localhost:3000/api/requests/adduser",
-          {
-            name,
-            email,
-            password,
-            birthDate: new Date(`${month} ${day} ${year}`),
-          }
-        );
-
-        console.log("Client response ===== ", res);
-        console.log(name.trim());
-        console.log(email.trim());
-        console.log(password.trim());
-        console.log(`${year}-${month}-${day}`);
-
-        if (res.status === 201) {
-          router.push("/login");
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/requests/adduser",
+        {
+          name,
+          email,
+          password,
+          birthDate: new Date(`${month} ${day} ${year}`),
         }
-      } catch (e) {
-        if (e.response.data) {
-          setDuplicateEmail(true);
-          return;
-        } else {
-          setDuplicateEmail(false);
-        }
+      );
+
+      console.log("Client response ===== ", res);
+      console.log(name.trim());
+      console.log(email.trim());
+      console.log(password.trim());
+      console.log(`${year}-${month}-${day}`);
+
+      if (res.status === 201) {
+        router.push("/login");
+      }
+    } catch (e) {
+      if (e.response.data) {
+        setDuplicateEmail(true);
+        return;
       }
     }
-    signUpButtonFunc();
   };
 
   return (
@@ -307,6 +307,9 @@ function Signup() {
           <p className={styles.errorParagraph}>Sorry, you're under 16!</p>
         ) : (
           ""
+        )}
+        {duplicateEmail && (
+          <p className={styles.errorParagraph}>{duplicateEmail}</p>
         )}
         <div className={styles.subButton}>
           <button className={styles.button}>Submit</button>
