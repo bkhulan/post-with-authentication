@@ -11,7 +11,7 @@ export default function Home() {
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errorUser, setErrorUser] = useState(null);
+  const [errorUser, setErrorUser] = useState('');
   // const [ifDisabled, ifSetDisabled] = useState(true);
 
   const userEmailHandler = (e) => {
@@ -52,12 +52,15 @@ export default function Home() {
         );
         console.log(res.data, "Successfully sent the data! (Frontend)");
 
+        setErrorUser('')
+   
         if (res.status === 201) {
           router.push("/protectedroute/post");
         }
+
       } catch (e) {
         if (e.response && e.response.status === 401) {
-          setErrorUser("You have entered an invalid username or password.");
+          setErrorUser(e.response.data);
         }
         console.log(e, "Error! (Frontend)");
       }
@@ -77,7 +80,7 @@ export default function Home() {
           <input
             type="email"
             placeholder="Email"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${errorUser === 'Email is not registered!' ? styles.error : ''}`}
             onChange={userEmailHandler}
             value={userEmail}
             required
@@ -85,7 +88,7 @@ export default function Home() {
           <input
             type="password"
             placeholder="Password"
-            className={styles.loginSignupInput}
+            className={`${styles.loginSignupInput} ${errorUser === 'Password incorrect!' ? styles.error : ''}`}
             onChange={passwordHandler}
             value={password}
             required
