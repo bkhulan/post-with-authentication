@@ -7,6 +7,7 @@ import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import { FaSignature } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+
 import styles from "./Profile.module.css";
 import stylesHome from "../../styles/Home.module.css";
 
@@ -61,6 +62,7 @@ export default Profile;
 export async function getServerSideProps({ req, res }) {
   await connectMongoose();
   console.log("Connected to the database. (Profile!)");
+
   const { cookies } = req;
   const jwtCookie = cookies.CookieJWT;
 
@@ -68,13 +70,13 @@ export async function getServerSideProps({ req, res }) {
   const user = await User.findOne({ _id: claims._id });
 
   let parsedUser = JSON.parse(JSON.stringify(user));
-
+  
   let newDateObject = new Date(parsedUser.birthDate);
 
-  let month = newDateObject.getMonth();
-  let day = newDateObject.getDay();
-  let year = newDateObject.getFullYear();
-
+  let day = newDateObject.getDate();
+  let month = newDateObject.getMonth() + 1;
+  let year = newDateObject.getFullYear();  
+  
   let copyOfUser = { ...parsedUser};
   copyOfUser.birthDate = `${year}-${month}-${day}`;
 
