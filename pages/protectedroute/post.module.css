@@ -1,4 +1,10 @@
-/* Post image input */
+/* Post image input -------------------- */
+
+.postInput,
+.postInputFileButton,
+.postButton {
+  font-family: "Lora", serif;
+}
 
 .postInputSection {
   display: flex;
@@ -32,8 +38,14 @@
   position: absolute;
   left: 0;
   top: 0;
-  transform: scale(3);
+  transform: scale(3); 
   opacity: 0;
+}
+
+.postInputFileButtonContainerDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .postInputFileButton {
@@ -75,7 +87,7 @@
 
 .postInputFileButton,
 .postButton {
-  margin: 5px auto;
+  margin: 15px auto;
 }
 
 .imageDiv {
@@ -88,4 +100,10 @@
   border-radius: 20px;
 }
 
+.postInputFileP {
+  margin-left: 15px;
+}
 
+.successfulPost {
+  color: red;
+}
