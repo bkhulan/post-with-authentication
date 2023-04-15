@@ -34,7 +34,6 @@ export default middlewareHandler.post(async (req, res, next) => {
     
   } catch (e) {
     console.log(e, "Error is occured!");
-    
     res.status(500).send(e);
   }
 });

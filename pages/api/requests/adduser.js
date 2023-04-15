@@ -4,7 +4,6 @@ import User from "../../../models/users";
 export default async function addUser(req, res) {
   await connectMongoose();
   console.log("Connected to the database!");
-  console.log("req.body ===== ", req.body);
 
   const duplicated = await User.findOne({ email: req.body.email });
   if (duplicated) {

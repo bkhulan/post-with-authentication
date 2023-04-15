@@ -1,12 +1,13 @@
 import connectMongoose from "../../utils/connectMongoose";
 const jwt = require("jsonwebtoken");
-import User from "../../models/users";
+import { FaSignature, FaBirthdayCake } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import moment from "moment";
 
-import Image from "next/image";
+import User from "../../models/users";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
-import { FaSignature } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+
 import styles from "./Profile.module.css";
 import stylesHome from "../../styles/Home.module.css";
 
@@ -42,7 +43,7 @@ function Profile({ dataUser }) {
 
             <div className={styles.columnContainer}>
               <div className={styles.iconDiv}>
-                <Image alt="Birthday" src={"/icon/birthday-cake.png"} width={19} height={19} />
+                <FaBirthdayCake />
               </div>
               <div>
                 <p className={styles.valuesFromData}>{dataUser.birthDate}</p>
@@ -61,22 +62,19 @@ export default Profile;
 export async function getServerSideProps({ req, res }) {
   await connectMongoose();
   console.log("Connected to the database. (Profile!)");
+
   const { cookies } = req;
   const jwtCookie = cookies.CookieJWT;
 
   const claims = jwt.verify(jwtCookie, process.env.SECRET);
   const user = await User.findOne({ _id: claims._id });
 
-  let parsedUser = JSON.parse(JSON.stringify(user));
-
+  let parsedUser = JSON.parse(JSON.stringify(user));  
   let newDateObject = new Date(parsedUser.birthDate);
-
-  let month = newDateObject.getMonth();
-  let day = newDateObject.getDay();
-  let year = newDateObject.getFullYear();
+  let newStringDate = newDateObject.toISOString().split('T')[0];
 
   let copyOfUser = { ...parsedUser};
-  copyOfUser.birthDate = `${year}-${month}-${day}`;
+  copyOfUser.birthDate = newStringDate;
 
   return {
     props: {

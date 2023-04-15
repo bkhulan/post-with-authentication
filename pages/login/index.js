@@ -11,29 +11,19 @@ export default function Home() {
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errorUser, setErrorUser] = useState('');
-  // const [ifDisabled, ifSetDisabled] = useState(true);
+  const [errorUser, setErrorUser] = useState("");
 
   const userEmailHandler = (e) => {
     setEmail(e.target.value);
-    // if (e.target.value.length > 1 && password.length > 6) {
-    //   ifSetDisabled(false);
-    // } else {
-    //   ifSetDisabled(true);
-    // }
   };
 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
-    // if (e.target.value.length > 6 && userEmail > 1) {
-    //   ifSetDisabled(false);
-    // } else {
-    //   ifSetDisabled(true);
-    // }
   };
 
   const buttonHandler = (e) => {
     e.preventDefault();
+
     if (userEmail.trim() === "" || password.trim() === "") {
       return console.log("Enter values!!!");
     } else {
@@ -52,12 +42,11 @@ export default function Home() {
         );
         console.log(res.data, "Successfully sent the data! (Frontend)");
 
-        setErrorUser('')
-   
+        setErrorUser("");
+
         if (res.status === 201) {
           router.push("/protectedroute/post");
         }
-
       } catch (e) {
         if (e.response && e.response.status === 401) {
           setErrorUser(e.response.data);
@@ -65,7 +54,6 @@ export default function Home() {
         console.log(e, "Error! (Frontend)");
       }
     }
-
     loginButtonFunc();
   };
 
@@ -80,7 +68,9 @@ export default function Home() {
           <input
             type="email"
             placeholder="Email"
-            className={`${styles.loginSignupInput} ${errorUser === 'Email is not registered!' ? styles.error : ''}`}
+            className={`${styles.loginSignupInput} ${
+              errorUser === "Email is not registered!" ? styles.error : ""
+            }`}
             onChange={userEmailHandler}
             value={userEmail}
             required
@@ -88,7 +78,9 @@ export default function Home() {
           <input
             type="password"
             placeholder="Password"
-            className={`${styles.loginSignupInput} ${errorUser === 'Password incorrect!' ? styles.error : ''}`}
+            className={`${styles.loginSignupInput} ${
+              errorUser === "Password incorrect!" ? styles.error : ""
+            }`}
             onChange={passwordHandler}
             value={password}
             required
