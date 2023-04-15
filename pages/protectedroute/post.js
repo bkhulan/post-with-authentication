@@ -3,7 +3,7 @@ import { ImImage } from "react-icons/im";
 
 const FormData = require("form-data");
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Image from "next/image";
@@ -17,11 +17,15 @@ import stylesHome from "../../styles/Home.module.css";
 
 function Loggedinpost({ alldata }) {
   const router = useRouter();
+  const inputRef = useRef(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageInput, setImageInput] = useState(null);
-  const [emptyFile, setEmptyFile] = useState(false);
+  const [imageFileName, setImageFileName] = useState("No selected file.");
+  const [imageFileEmptyError, setImageFileEmptyError] = useState(false);
+
+  const [successfulPost, setSuccessfulPost] = useState(false);
   // const [image, setImage] = useState(null);
 
   const titleHandler = (e) => {
@@ -32,9 +36,12 @@ function Loggedinpost({ alldata }) {
     setDescription(e.target.value);
   };
 
-  const imageHandler = (e) => {
+  let imageHandler = (e) => {
     const file = e.target.files[0];
+
     setImageInput(file);
+    setImageFileName(file.name);
+    setImageFileEmptyError(false);
 
     // const fileReader = new FileReader();
     // fileReader.onload = function (e) {
@@ -43,8 +50,20 @@ function Loggedinpost({ alldata }) {
     // fileReader.readAsDataURL(file);
   };
 
+  function resetValidationErrors() {
+    setImageFileEmptyError(false);
+    // setImage(null);
+  }
+
   const buttonHandler = (e) => {
     e.preventDefault();
+
+    resetValidationErrors();
+
+    if (imageInput == null) {
+      return setImageFileEmptyError(true);
+    }
+
     let formData = new FormData();
 
     formData.append("myImage", imageInput);
@@ -64,10 +83,20 @@ function Loggedinpost({ alldata }) {
       })
         .then((res) => {
           console.log("Successfully sent the data to the backend!");
+
+          setSuccessfulPost(true);
+
           router.replace(router.asPath);
+
+          setTimeout(function () {
+            setSuccessfulPost(false);
+          }, 1000);
+
+          inputRef.current.value = null;
         })
         .catch((e) => {
           console.log(e, "Getting an error!");
+          setSuccessfulPost(false);
         });
     }
 
@@ -75,8 +104,8 @@ function Loggedinpost({ alldata }) {
 
     setTitle("");
     setDescription("");
-    // setImage(null);
     setImageInput(null);
+    setImageFileName("No selected file.");
   };
 
   return (
@@ -102,35 +131,58 @@ function Loggedinpost({ alldata }) {
               className={styles.postInput}
               required
             />
-            <input
+            <textarea
               onChange={descriptionHandler}
               type="text"
               placeholder="Description"
               value={description}
-              className={styles.postInput}
+              className={`${styles.postInput} ${styles.textAreaFont}`}
               required
-            />
-            <button htmlFor="picture" className={styles.postInputFileButton}>
-              <ImImage className={styles.addImageIcon} />
-              Choose a photo
-              <input
-                onChange={imageHandler}
-                type="file"
-                name="image"
-                id="picture"
-                accept="image/jpg, image/png"
-                className={styles.postInputFileHidden}
-              />
-            </button>
-            {emptyFile && <p>Not chosen, yet!</p>}
+            ></textarea>
+            <div className={styles.postInputFileButtonContainerDiv}>
+              <div>
+                <button
+                  htmlFor="picture"
+                  className={styles.postInputFileButton}
+                >
+                  <ImImage className={styles.addImageIcon} />
+                  Choose a photo
+                  <input
+                    ref={inputRef}
+                    onChange={imageHandler}
+                    type="file"
+                    name="image"
+                    id="picture"
+                    accept="image/jpg, image/png"
+                    className={styles.postInputFileHidden}
+                  />
+                </button>
+              </div>
+              <div className={styles.postInputFileP}>
+                {imageFileName && <p>{imageFileName}</p>}
+              </div>
+            </div>
+
+            {imageFileEmptyError ? (
+              <p className={styles.successfulPost}>Insert an image, please!</p>
+            ) : (
+              ""
+            )}
 
             <button className={styles.postButton} type="submit">
               Submit
             </button>
+
             {/* <div>{image && <img src={image} style={{ width: "100px" }} />}</div> */}
+
+            {successfulPost ? (
+              <p className={styles.successfulPost}>Successfully posted!</p>
+            ) : (
+              ""
+            )}
           </form>
         </section>
-        
+
         <section className={styles.photoDataSection}>
           {alldata
             .slice(0)
