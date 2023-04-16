@@ -1,30 +1,20 @@
-import Head from "next/head";
-import Link from "next/link";
+import { useEffect } from 'react'
+import { useRouter } from "next/router";
 
-import styles from "../styles/Home.module.css";
+import Head from "next/head";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+   router.push('/login');
+  }, [])
+
   return (
-    <div className={styles.mainContainer}>
+    <div>
       <Head>
         <title>Home</title>
       </Head>
-
-      <div className={styles.subContainer}>
-        <div className={styles.subButton}>
-          <Link href="/login" className={styles.button}>
-            Log in
-          </Link>
-
-          <Link href="/signup" className={styles.button}>
-            Sign up
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }
-
-Home.getLayout = function PageLayout(page) {
-  return <>{page}</>;
-};

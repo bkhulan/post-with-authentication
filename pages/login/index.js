@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import axios from "axios";
+
+import Head from "next/head";
+import Link from "next/link";
 
 import styles from "../../styles/Home.module.css";
 
@@ -62,7 +64,9 @@ export default function Home() {
       <Head>
         <title>Login</title>
       </Head>
-
+      <Link href="/signup" className={styles.button}>
+            Sign up
+          </Link>
       <main>
         <form onSubmit={buttonHandler} className={styles.subContainer}>
           <input
