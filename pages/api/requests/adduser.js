@@ -6,8 +6,9 @@ export default async function addUser(req, res) {
   console.log("Connected to the database!");
 
   const duplicated = await User.findOne({ email: req.body.email });
+
   if (duplicated) {
-    return res.status(400).send("There is already an account with this email.");
+    return res.status(422).send("There is already an account with this email.");
   }
 
   try {

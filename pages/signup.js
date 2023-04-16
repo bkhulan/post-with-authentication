@@ -21,7 +21,7 @@ export default function Signup() {
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
   const [confirmePasswordError, setConfirmPasswordError] = useState(false);
-  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [duplicateEmail, setDuplicateEmail] = useState(null);
   const [invalidBirthday, setInvalidBirthday] = useState(false);
 
   const nameHandler = (e) => {
@@ -50,7 +50,7 @@ export default function Signup() {
     setEmailValid(true);
     setPasswordValid(true);
     setConfirmPasswordError(false);
-    setDuplicateEmail(false);
+    setDuplicateEmail(null);
     setInvalidBirthday(false);
   }
 
@@ -92,7 +92,7 @@ export default function Signup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/requests/adduser",
+        "http://localhost:3000/api/requests/adduser",
         {
           name,
           email,
@@ -111,8 +111,11 @@ export default function Signup() {
         router.push("/login");
       }
     } catch (e) {
-      if (e.response.data) {
-        setDuplicateEmail(true);
+      if (e.response.status === 422) {
+        setDuplicateEmail(e.response.data);
+        return;
+      } else {
+        console.log(e);
         return;
       }
     }
@@ -239,16 +242,19 @@ export default function Signup() {
             ))}
           </select>
         </div>
+
         {!emailValid ? (
           <p className={styles.errorParagraph}>Invalid email!</p>
         ) : (
           ""
         )}
+
         {confirmePasswordError ? (
           <p className={styles.errorParagraph}>Passwords don't match!</p>
         ) : (
           ""
         )}
+
         {!passwordValid ? (
           <p className={styles.errorParagraph}>
             Password must be at least 7 characters.
@@ -256,21 +262,17 @@ export default function Signup() {
         ) : (
           ""
         )}
-        {duplicateEmail ? (
-          <p className={styles.errorParagraph}>
-            There is already an account with this email.
-          </p>
-        ) : (
-          ""
-        )}
+
         {invalidBirthday ? (
           <p className={styles.errorParagraph}>Sorry, you're under 16!</p>
         ) : (
           ""
         )}
+
         {duplicateEmail && (
           <p className={styles.errorParagraph}>{duplicateEmail}</p>
         )}
+
         <div className={styles.subButton}>
           <button className={styles.button}>Submit</button>
         </div>
