@@ -143,11 +143,12 @@ export default function Signup() {
   console.log(allYears);
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={styles.container}>
       <Head>
         <title>Signup</title>
       </Head>
-      <form onSubmit={buttonHandler} className={styles.subContainer}>
+
+      <form onSubmit={buttonHandler} className={styles.formContainer}>
         <div className={styles.subInputStyle}>
           <input
             type="text"

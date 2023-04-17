@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -60,40 +61,53 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.mainContainer}>
+    <div className={styles.container}>
       <Head>
         <title>Login</title>
       </Head>
-      <Link href="/signup" className={styles.button}>
-            Sign up
-          </Link>
-      <main>
-        <form onSubmit={buttonHandler} className={styles.subContainer}>
-          <input
-            type="email"
-            placeholder="Email"
-            className={`${styles.loginSignupInput} ${
-              errorUser === "Email is not registered!" ? styles.error : ""
-            }`}
-            onChange={userEmailHandler}
-            value={userEmail}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className={`${styles.loginSignupInput} ${
-              errorUser === "Password incorrect!" ? styles.error : ""
-            }`}
-            onChange={passwordHandler}
-            value={password}
-            required
-          />
-          {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
-          <div className={styles.subButton}>
-            <button className={styles.button}>Log in</button>
+
+      <main className={styles.mainTagContainer}>
+        <div className={`${styles.imageBackground}`}>
+          <div className={`${styles.divImageSentence}`}>
+            <h1>Welcome Back!</h1>
+            <p className={styles.pTagImageSentence}>
+              To keep connected with us please login with your personal info.
+            </p>
           </div>
-        </form>
+        </div>
+
+        <div className={styles.mainFormContainer}>
+
+          <form className={styles.formContainer} onSubmit={buttonHandler}>
+            <p className={styles.title}>Salvatore</p>
+            <input
+              type="email"
+              placeholder="Email"
+              className={`${styles.loginSignupInput} ${
+                errorUser === "Email is not registered!" ? styles.error : ""
+              }`}
+              onChange={userEmailHandler}
+              value={userEmail}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className={`${styles.loginSignupInput} ${
+                errorUser === "Password incorrect!" ? styles.error : ""
+              }`}
+              onChange={passwordHandler}
+              value={password}
+              required
+            />
+            {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
+            <button className={styles.loginButton}>Log in</button>
+            <Link className={styles.signupButton} href="/signup">
+              Create new account
+            </Link>
+          </form>
+
+        </div>
       </main>
     </div>
   );

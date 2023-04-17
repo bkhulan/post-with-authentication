@@ -1,9 +1,10 @@
-/* Home page style --------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
-.mainContainer {
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Fjalla+One&family=Lora:wght@500&family=Merriweather:wght@300&family=Nanum+Myeongjo:wght@700&family=Poppins&family=Raleway:wght@200&display=swap");
+
+.container {
   padding: 0;
   margin: 0;
-  background-color: #dde5f4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,49 +13,102 @@
   position: relative;
 }
 
-.subContainer {
-  padding: 30px;
-  background-color: #f1f7fe;
-  border-radius: 10px;
-  width: 400px;
+.imageBackground {
+  background-image: url("/imageTool/red-tree.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 15px 0 0 15px;
 }
 
-.subButton {
+.divImageSentence {
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1em;
+  color: #fff;
+  margin: 7em auto 0em;
+}
+
+.pTagImageSentence {
+  font-size: 18px;
+}
+
+.mainTagContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 10px;
+  width: 800px;
+  max-width: 100%;
+  min-height: 35em;
+  background-color: #fff;
+  position: relative;
+}
+
+.mainFormContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
+  /* transition: all 0.6s ease-in-out; */
 }
 
-.button {
-  padding: 10px 20px;
-  margin: 10px;
-  border-radius: 20px;
-  background: #3e4684;
-  font-size: 20px;
-  margin-bottom: 15px;
-  color: #fff;
-  opacity: 1;
-  cursor: pointer;
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+  position: relative;
 }
 
-.button:disabled {
-  background-color: transparent;
+.title {
+  font-family: "Fjalla One", sans-serif;
+  font-size: 3.5em;
+  position: absolute;
+  top: 10px;
 }
-
-.button:enabled {
-  background-color: #050a30;
-}
-
-/* Log in and Sign up page style */
 
 .loginSignupInput {
   display: block;
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  /* border: 1px solid #a5abd8; */
-  border: 1px solid #dddddd;
+  margin-top: 30px;
+  border: none;
+  box-shadow: 2px 2px 8px;
   outline: none;
+}
+
+.loginSignupInput:focus {
+  outline: 1px solid black;
+}
+
+.loginButton,
+.signupButton,
+.divImageSentence,
+.loginSignupInput {
+  font-family: "Playfair Display", serif;
+}
+
+.loginButton {
+  border: none;
+  padding: 10px 20px;
+  margin-top: 45px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #4f200d;
+}
+
+.loginButton:hover {
+  background-color: #311408;
+}
+
+.signupButton {
+  position: absolute;
+  bottom: 20px;
+}
+
+.signupButton:hover {
+  text-decoration: underline;
 }
 
 /* .loginSignupInput:required {
@@ -72,7 +126,6 @@
   border: 1px solid #dddddd;
   border-radius: 3px;
   padding: 10px;
-  outline: none;
   margin: 5px;
   width: 105px;
 }
@@ -88,8 +141,6 @@
 .error {
   border-color: red;
 }
-
-/* Protected route styles */
 
 .main {
   padding: 50px;
