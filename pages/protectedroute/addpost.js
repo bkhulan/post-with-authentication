@@ -11,7 +11,7 @@ import { IoMdCloudUpload } from "react-icons/io";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Head from "next/head";
 
-import styles from "./Addpost.module.css";
+import styles from "./addpost.module.css";
 
 function Loggedinpost() {
   // const router = useRouter();
