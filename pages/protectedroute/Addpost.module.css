@@ -1,0 +1,198 @@
+/* Source Sans Pro */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
+
+/* PT Sans */
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+.mainContainer {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadButton,
+.postButton {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.createPostTitle,
+.postInput,
+.textArea,
+.fileUploadSentence,
+.orSpanTag,
+.noSelectedOrSelectedPtag,
+.successfulPost {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 16px;
+}
+
+.postInputSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  max-width: 100%;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 65px;
+  margin: 20px 0;
+}
+
+.postInputForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+.createPostTitle {
+  font-size: 2em;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.postInput,
+.textArea {
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid #d4d4d4;
+  width: 100%;
+  padding: 5px 10px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.postInput:focus,
+.textArea:focus {
+  border: 1px solid #00adb5;
+}
+
+.postInput {
+  margin-bottom: 20px;
+}
+
+.textArea {
+  height: 300px;
+}
+
+/* IMAGE UPLOAD =================== */
+
+.dragAreaContainer {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 2px solid #eeeeee;
+}
+
+.dragAreaContainer.active {
+  border: 2px solid #d3d3d3;
+  /* box-shadow: 2px 2px 5px #a7a7a7; */
+}
+
+.beforeUploadImageDragarea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #eeeeee;
+  border-radius: 5px;
+  padding: 50px;
+  margin: 0px;
+  width: 100%;
+  height: auto;
+  line-height: 30px;
+  font-weight: 800;
+  font-family: "Signika Negative", sans-serif;
+  border-radius: 5px;
+  line-height: 40px;
+}
+
+.afterUploadedImageDragarea {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: auto;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.inputFileUploadIcon {
+  font-size: 50px;
+  color: #393e46;
+}
+
+.fileUploadSentence {
+  font-size: 20px;
+  margin: 0px;
+}
+
+.postButton {
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #00adb5;
+  color: #fff;
+  border-radius: 10px;
+  max-width: 100%;
+  font-size: 16px;
+  margin: 0;
+  transition: 0.2s;
+}
+
+.uploadButton {
+  position: relative;
+  font-size: 16px;
+  padding: 5px 20px;
+  outline: none;
+  background-color: #393e46;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 3px;
+  max-width: 150px;
+  max-height: 35px;
+  overflow: hidden;
+}
+
+.uploadButton:hover {
+  background-color: #222831;
+}
+
+.postInputFileHidden {
+  position: absolute;
+  top: 7px;
+  right: -40px;
+  transform: scale(1.5);
+  cursor: pointer;
+  opacity: 0;
+}
+
+.successfulPost {
+  color: red;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.postButton:hover {
+  background-color: #0098a0;
+}

@@ -1,51 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500&display=swap");
+
 .mainHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #222831;
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 10;
-  font-size: 20px;
-}
-
-.mainNav {
-  margin: 0;
+  left: 0;
+  margin: 0px;
+  padding: 0px;
   height: 65px;
-  background-color: #dde5f4; 
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: rgb(0, 0, 0);
-  column-gap: 30px;
-  padding: 0 20px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 2px 2px 15px 0px #e5e5e5;
+  position: relative;
+  z-index: 1;
 }
 
-.mainNav ul li {
+.navTagLinks {
+  margin: 0px;
+  padding: 0px;
+}
+
+.ulTagLinks {
   list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.navTitle,
+.aTagLink,
+.logoutButton,
+.dropdownATag {
+  color: #eeeeee;
+}
+
+.navTitle {
+  font-size: 2.5em;
+}
+
+.liTagLinks {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 20px;
+  position: relative;
+  padding: 13px
+}
+
+.aTagLink {
+  display: block; 
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: "Frank Ruhl Libre", serif;
+  padding: 10px 20px;
+  transition: all 0.6 ease 0s;
+}
+
+.aTagLink:hover, .aTagLink.active {
+  background-color: #00adb5;
+  border-radius: 30px;
+}
+
+.divLogoutButton {
+  position: absolute;
+  right: 10px;
 }
 
 .logoutButton {
   border: none;
   cursor: pointer;
   background: none;
-}
-
-.navLink, .logoutButton {
-  display: flex;
-  justify-content: center;
-  font-size: 16px;
-  border-radius: 10px;
-  padding: 15px;
-  width: 110px;
-}
-
-.navLink:hover, .logoutButton:hover {
-  background-color: #cedbf1;
+  font-family: "Frank Ruhl Libre", serif;
+  padding: 10px;
+  border-radius: 20px;
   color: #fff;
 }
 
-.active {
-  background-color: aquamarine;
+.logoutButton:hover {
+  background-color: #393e46;
+  color: #00adb5;
 }
 
-.mainLayout {
-  margin-top: 65px;
+.aTagLink,
+.logoutButton {
+  font-size: 15px;
+} 
+
+.dropdownUlTag {
+  display: none;
+  z-index: -5000;
+} 
+
+.liTagLinks:hover .dropdownUlTag {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 65px;
+  padding: 0px;
+  margin: 0px;
+  background-color: #222831;
+  /* background-color: #1b5825; */
+  transition: 5s ease-in-out 0;
+  border-radius: 5px;
+  list-style: none;
+  width: 150px;
+  z-index: -1;
+}
+
+.dropdownLiTag {
+  display: block;
+  width: 100%;
+  border-top: #eeeeee;
+  padding: 0px;
+  margin: 0px;  
+  border-top: 1px solid #eeeeee;
+}
+
+.dropdownATag {
+  display: block;
+  padding: 20px 25px;
+  text-align: center;
+}
+
+.dropdownATag:hover {
+  color: #00adb5;
 }

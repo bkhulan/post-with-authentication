@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+
 .profileSection {
   display: flex;
   justify-content: center;
@@ -26,11 +30,17 @@
   padding-right: 18px;
 }
 
-.valuesFromData::first-letter {
+/* .valuesFromData::first-letter {
   text-transform: capitalize;
+} */
+
+.valuesFromData {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 16px;
 }
 
 .properties {
-  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
   color: #65676b;
 }
