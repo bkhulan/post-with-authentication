@@ -6,7 +6,6 @@ import moment from "moment";
 
 import User from "../../models/users";
 import Head from "next/head";
-import Navbar from "../../components/Navbar";
 
 import styles from "./Profile.module.css";
 import stylesHome from "../../styles/Home.module.css";
@@ -17,7 +16,6 @@ function Profile({ dataUser }) {
       <Head>
         <title>Profile</title>
       </Head>
-      <Navbar />
       <main className={stylesHome.main}>
         <section className={styles.profileSection}>
           <div key={dataUser._id} className={styles.profileSectionDiv}>
@@ -26,7 +24,7 @@ function Profile({ dataUser }) {
                 <FaSignature />
               </div>
               <div>
-                <p className={styles.valuesFromData}>{dataUser.name}</p>
+                <p className={styles.valuesFromData}>{dataUser.firstName} {dataUser.lastName}</p>
                 <p className={styles.properties}>Name</p>
               </div>
             </div>
@@ -36,7 +34,7 @@ function Profile({ dataUser }) {
                 <MdEmail />
               </div>
               <div>
-                <p>{dataUser.email}</p>
+                <p className={styles.valuesFromData}>{dataUser.email}</p>
                 <p className={styles.properties}>Email</p>
               </div>
             </div>

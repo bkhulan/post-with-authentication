@@ -1,0 +1,51 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); */
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+.imageAllDataSection {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+}
+
+.imageContainer {
+  width: 550px;
+  max-width: 90%;
+  background-color: #fff;
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.imageBox {
+  margin: 20px;
+  border: 1px solid #b7c4cf;
+  border-radius: 10px;
+}
+
+.image {
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid #b7c4cf;
+
+}
+
+.imageTitleAndDescriptionBox {
+    margin: 0 20px;
+}
+
+.allPostTitle {
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.allPostDescription {
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}

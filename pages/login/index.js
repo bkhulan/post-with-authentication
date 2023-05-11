@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ import styles from "../../styles/Home.module.css";
 
 export default function Home() {
   const router = useRouter();
+  const myRef = useRef();
 
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ export default function Home() {
     setPassword(e.target.value);
   };
 
-  const buttonHandler = (e) => {
+  const loginButtonHandler = (e) => {
     e.preventDefault();
 
     if (userEmail.trim() === "" || password.trim() === "") {
@@ -48,7 +49,7 @@ export default function Home() {
         setErrorUser("");
 
         if (res.status === 201) {
-          router.push("/protectedroute/post");
+          router.push("/protectedroute/addpost");
         }
       } catch (e) {
         if (e.response && e.response.status === 401) {
@@ -60,6 +61,10 @@ export default function Home() {
     loginButtonFunc();
   };
 
+  const goToSignupPageHandler = () => {
+    myRef.current.classList.add("right-panel-active");
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -67,7 +72,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.mainTagContainer}>
-        <div className={`${styles.imageBackground}`}>
+        <div ref={myRef} className={`${styles.imageBackground}`}>
           <div className={`${styles.divImageSentence}`}>
             <h1>Welcome Back!</h1>
             <p className={styles.pTagImageSentence}>
@@ -77,36 +82,48 @@ export default function Home() {
         </div>
 
         <div className={styles.mainFormContainer}>
+          <form className={styles.formContainer} onSubmit={loginButtonHandler}>
+            <p className={`${styles.title} ${styles.loginTitle} ${styles.loginLogoutTitle}`}>Dream</p>
 
-          <form className={styles.formContainer} onSubmit={buttonHandler}>
-            <p className={styles.title}>Salvatore</p>
-            <input
-              type="email"
-              placeholder="Email"
-              className={`${styles.loginSignupInput} ${
-                errorUser === "Email is not registered!" ? styles.error : ""
-              }`}
-              onChange={userEmailHandler}
-              value={userEmail}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className={`${styles.loginSignupInput} ${
-                errorUser === "Password incorrect!" ? styles.error : ""
-              }`}
-              onChange={passwordHandler}
-              value={password}
-              required
-            />
+            <div className={styles.inputBox}>
+              <input
+                type="email"
+                className={`${styles.loginSignupInput} ${styles.loginInput} ${
+                  errorUser === "Email is not registered!" ? styles.error : ""
+                }`}
+                onChange={userEmailHandler}
+                value={userEmail}
+                required
+                placeholder=" "
+                autoComplete="on"
+              />
+              <span className={styles.spanLoginSignupInput}>Email</span>
+            </div>
+
+            <div className={styles.inputBox}>
+              <input
+                type="password"
+                className={`${styles.loginSignupInput} ${styles.loginInput} ${
+                  errorUser === "Password incorrect!" ? styles.error : ""
+                }`}
+                onChange={passwordHandler}
+                value={password}
+                required
+                placeholder=" "
+              />
+              <span className={styles.spanLoginSignupInput}>Password</span>
+            </div>
+
             {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
-            <button className={styles.loginButton}>Log in</button>
-            <Link className={styles.signupButton} href="/signup">
-              Create new account
+            <button className={styles.loginSignupSubmiButton}>Log in</button>
+            <Link
+              onClick={goToSignupPageHandler}
+              className={styles.loginSignupLinkButton}
+              href="/signup"
+            >
+              Don't have an account? Sign up
             </Link>
           </form>
-
         </div>
       </main>
     </div>

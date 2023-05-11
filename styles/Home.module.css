@@ -1,6 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Calistoga&display=swap");
+
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Fjalla+One&family=Lora:wght@500&family=Merriweather:wght@300&family=Nanum+Myeongjo:wght@700&family=Poppins&family=Raleway:wght@200&display=swap");
+.divImageSentence,
+.loginSignupInput,
+.loginSignupSubmiButton,
+.loginSignupLinkButton,
+.birthDateSelect,
+.pTagBirthDate {
+  font-family: "PT Serif", serif;
+}
 
 .container {
   padding: 0;
@@ -11,13 +20,33 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  background-color: rgb(245, 241, 241);
+  overflow: hidden;
+}
+
+.mainTagContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 10px;
+  width: 800px;
+  max-width: 100%;
+  min-height: 43em;
+  background-color: #fff;
+  position: relative;
 }
 
 .imageBackground {
-  background-image: url("/imageTool/red-tree.jpg");
+  /* background-image: url("/imageTool/iphoneAndNotebook.jpg"); */
+  background-image: url("/iphoneAndNotebook.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 15px 0 0 15px;
+  transition: transform 0.6s ease-in-out;
+}
+
+.imageBackground.right-panel-active {
+  /* transform: translateX(100%); */
+  transform: scale(3);
 }
 
 .divImageSentence {
@@ -30,17 +59,7 @@
 
 .pTagImageSentence {
   font-size: 18px;
-}
-
-.mainTagContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-radius: 10px;
-  width: 800px;
-  max-width: 100%;
-  min-height: 35em;
-  background-color: #fff;
-  position: relative;
+  line-height: 1.5;
 }
 
 .mainFormContainer {
@@ -61,87 +80,194 @@
 }
 
 .title {
-  font-family: "Fjalla One", sans-serif;
+  font-family: "Calistoga", cursive;
+}
+
+.loginTitle {
+  top: 60px;
+}
+
+.signupTitle {
+  top: 50px;
+}
+
+.loginLogoutTitle {
   font-size: 3.5em;
   position: absolute;
-  top: 10px;
+  margin: 0;
+}
+
+.inputBox {
+  width: 100%;
+  position: relative;
 }
 
 .loginSignupInput {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin-top: 30px;
+  padding: 8px;
   border: none;
-  box-shadow: 2px 2px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   outline: none;
+  font-size: 16px;
+  /* box-shadow: 0.3px 0.3px 3px; */
 }
 
-.loginSignupInput:focus {
-  outline: 1px solid black;
+.spanLoginSignupInput {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  pointer-events: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  transition: 0.5s;
+  /* color: rgba(70, 70, 70, 0.5); */
+  color: rgba(49, 49, 49, 0.5);
 }
 
-.loginButton,
-.signupButton,
-.divImageSentence,
-.loginSignupInput {
-  font-family: "Playfair Display", serif;
+.loginSignupInput:valid + .spanLoginSignupInput,
+.loginSignupInput:focus + .spanLoginSignupInput,
+.loginSignupInput:not(:placeholder-shown).loginSignupInput:not(:focus)
+  + .spanLoginSignupInput {
+  transform: translateX(3px) translateY(-18px);
+  font-size: 0.65em;
+  background: #fff;
 }
 
-.loginButton {
+.loginInput {
+  margin-bottom: 30px;
+}
+
+.signupInput {
+  margin-bottom: 20px;
+}
+
+.loginSignupSubmiButton {
   border: none;
   padding: 10px 20px;
   margin-top: 45px;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
-  background-color: #4f200d;
+  background-color: #222831;
+  border-radius: 5px;
 }
 
-.loginButton:hover {
-  background-color: #311408;
+.loginSignupSubmiButton:hover {
+  background-color: #393e46;
 }
 
-.signupButton {
+.signupSubmitBtn {
+  position: absolute;
+  bottom: 4em;
+}
+
+.loginSignupLinkButton {
   position: absolute;
   bottom: 20px;
 }
 
-.signupButton:hover {
+.loginSignupLinkButton:hover {
   text-decoration: underline;
 }
 
-/* .loginSignupInput:required {
-  border-color: #800000;
-  border-width: 3px;
-} */
+.birthDateSpanTag {
+  display: inline-block;
+}
+
+.birthDateSelect {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  padding: 10px;
+  width: 86px;
+  outline: none;
+}
+
+.birthDateSelect:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.dayYearSelect {
+  margin-left: 10px;
+}
 
 .errorParagraph {
   color: red;
   text-align: center;
-}
-
-.birthDateSelect {
-  display: inline-block;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px;
-  margin: 5px;
-  width: 105px;
-}
-
-.birthDateStyle > select:nth-child(1) {
-  margin-left: 0;
-}
-
-.birthDateStyle > select:nth-child(3) {
-  margin-right: 0;
+  position: absolute;
+  bottom: 6.5em;
 }
 
 .error {
-  border-color: red;
+  border: 1px solid rgb(255, 82, 82);
 }
 
-.main {
-  padding: 50px;
+.alertStyle {
+  position: absolute;
+  right: 0px;
+  bottom: 15px;
+  background-color: rgba(147, 250, 165);
+  min-width: 200px;
+  padding: 20px 40px;
+  border-radius: 4px 0px 0px 4px;
+  border-left: 8px solid rgb(3, 158, 132);
+  opacity: 0;
 }
+
+.alertSuccessIcon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 17px;
+  color: rgb(3, 158, 132);
+}
+
+.alertMessage {
+  padding-left: 10px;
+  font-size: 18px;
+  color: rgb(3, 158, 132);
+}
+
+.alertStyle.showAlert {
+  opacity: 1;
+}
+
+.alertStyle.show {
+  animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+  0% {
+    transform: translateX(100%);
+  }
+  40% {
+    transform: translateX(-10%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+/* .alertStyle.hide {
+  animation: hide_slide 1s ease forwards;
+}
+
+@keyframes hide_slide {
+  0% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(0%);
+  }
+  80% {
+    transform: translateX(10%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+} */

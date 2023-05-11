@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap");
+
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal {
+  position: fixed;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-width: 90%;
+  height: 100px;
+  padding: 2.1rem;
+  border-radius: 14px;
+  z-index: 300;
+  font-family: "Signika Negative", sans-serif;
+}
+
+.modalCloseIcon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #fff;
+  transform: scale(1.5);
+  cursor: pointer;
+}

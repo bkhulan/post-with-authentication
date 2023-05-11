@@ -1,0 +1,6 @@
+.mainContainer {
+    height: 100vh;
+    background: url('/imageTool/night-city.jpg');
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+}

@@ -1,7 +1,7 @@
 /node_modules
 .next
 .env.local
-/public
+/public/userPostImage
 yarn.lock
 package-lock.json
 /back-end
