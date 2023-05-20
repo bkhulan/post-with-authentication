@@ -83,7 +83,11 @@ export default function Home() {
 
         <div className={styles.mainFormContainer}>
           <form className={styles.formContainer} onSubmit={loginButtonHandler}>
-            <p className={`${styles.title} ${styles.loginTitle} ${styles.loginLogoutTitle}`}>Dream</p>
+            <p
+              className={`${styles.title} ${styles.loginTitle} ${styles.loginLogoutTitle}`}
+            >
+              Dream
+            </p>
 
             <div className={styles.inputBox}>
               <input
@@ -115,7 +119,45 @@ export default function Home() {
             </div>
 
             {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
-            <button className={styles.loginSignupSubmiButton}>Log in</button>
+
+            <div className={styles.allButtonBox}>
+              <button
+                className={`${styles.allFourButtons} ${styles.loginSignupSubmiButton}`}
+              >
+                Log in
+              </button>
+            </div>
+
+            <div className={`${styles.allButtonBox} ${styles.customButtonBox}`}>
+              <button
+                type="button"
+                className={`${styles.allFourButtons} ${styles.buttonCustom}`}
+              >
+                Sign In with Google
+                <Image
+                  src={"/google.svg"}
+                  width={20}
+                  height={20}
+                  className={styles.buttonIcons}
+                ></Image>
+              </button>
+            </div>
+
+            <div className={`${styles.allButtonBox} ${styles.customButtonBox}`}>
+              <button
+                type="button"
+                className={`${styles.allFourButtons} ${styles.buttonCustom}`}
+              >
+                Sign In with Github
+                <Image
+                  src={"/github.svg"}
+                  width={20}
+                  height={20}
+                  className={styles.buttonIcons}
+                ></Image>
+              </button>
+            </div>
+
             <Link
               onClick={goToSignupPageHandler}
               className={styles.loginSignupLinkButton}

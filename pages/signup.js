@@ -328,7 +328,7 @@ export default function Signup() {
             )}
 
             <button
-              className={`${styles.loginSignupSubmiButton} ${styles.signupSubmitBtn}`}
+              className={`${styles.allFourButtons} ${styles.loginSignupSubmiButton} ${styles.signupSubmitBtn}`}
             >
               Submit
             </button>
