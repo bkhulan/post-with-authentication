@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
-// import Date from "../components/Date";
+import BirthDateSelect from "../components/BirthDateSelect";
 
 import { MdCheckCircle } from "react-icons/md";
 
@@ -12,16 +11,15 @@ import styles from "../styles/Home.module.css";
 
 export default function Signup() {
   const router = useRouter();
-  let today = new Date();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
-  const [year, setYear] = useState("");
+
+  const [howOld, setHowOld] = useState(null);
+  const [userBirthday, setUserBirthday] = useState(null);
 
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
@@ -29,31 +27,6 @@ export default function Signup() {
   const [duplicateEmail, setDuplicateEmail] = useState(null);
   const [invalidBirthday, setInvalidBirthday] = useState(false);
   const [successfulPost, setSuccessfulPost] = useState(false);
-
-  const firstNameHandler = (e) => {
-    setFirstName(e.target.value);
-  };
-  const lastNameHandler = (e) => {
-    setLastName(e.target.value);
-  };
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
-  };
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
-  };
-  const confirmPasswordHandler = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-  const monthHandler = (e) => {
-    setMonth(e.target.value);
-  };
-  const dayHandler = (e) => {
-    setDay(e.target.value);
-  };
-  const yearHandler = (e) => {
-    setYear(e.target.value);
-  };
 
   function resetValidationErrors() {
     setEmailValid(true);
@@ -83,21 +56,16 @@ export default function Signup() {
       return;
     }
 
-    let userBirthdayGreen = new Date(`${year}-${month}-${day}`);
-    console.log(userBirthdayGreen);
+    // let userBirthday = new Date(`${year}-${month}-${day} EDT`);
 
-    let userBirthday = new Date(`${year}-${month}-${day} EDT`);
+    // let msSince = today.getTime() - userBirthday.getTime();
+    // let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
+    // let yearsSince = Math.floor(daysSince / 365);
 
-    let msSince = today.getTime() - userBirthday.getTime();
-    let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
-    let yearsSince = Math.floor(daysSince / 365);
-
-    console.log("Day and year.", daysSince, yearsSince);
-
-    if (yearsSince < 16) {
-      setInvalidBirthday(true);
-      return;
-    }
+    // if (howOld < 16) {
+    //   setInvalidBirthday(true);
+    //   return;
+    // }
 
     try {
       const res = await axios.post(
@@ -107,7 +75,7 @@ export default function Signup() {
           lastName,
           email,
           password,
-          birthDate: userBirthday,
+          birthDate: userBirthday ? userBirthday : "userBirthday",
         }
       );
 
@@ -115,7 +83,6 @@ export default function Signup() {
       console.log(lastName.trim());
       console.log(email.trim());
       console.log(password.trim());
-      // console.log(`${year}/${month}/${day}`);
 
       if (res.status === 201) {
         setSuccessfulPost(true);
@@ -134,26 +101,13 @@ export default function Signup() {
     }
   };
 
-  const allMonths = moment.months();
+  // function recievedHowOldFunc(recievedUserBirthday, recievedYearsSince) {
+  //   setUserBirthday(recievedUserBirthday);
+  //   setHowOld(recievedYearsSince);
+  // }
 
-  const allDays = [];
-
-  for (let i = 1; i <= 31; i++) {
-    allDays.push(i);
-  }
-
-  console.log("DAYS", allDays);
-
-  const allYears = [];
-
-  const todayYear = today.getFullYear();
-  const untilPastYear = todayYear - 120;
-
-  for (let i = todayYear; i >= untilPastYear; i--) {
-    allYears.push(i);
-  }
-
-  console.log(allYears);
+  // console.log("userBirthday", userBirthday);
+  // console.log("yearsSince", howOld);
 
   return (
     <div className={styles.container}>
@@ -183,7 +137,7 @@ export default function Signup() {
             <div className={styles.inputBox}>
               <input
                 type="text"
-                onChange={firstNameHandler}
+                onChange={(e) => setFirstName(e.target.value)}
                 className={`${styles.loginSignupInput} ${styles.signupInput}`}
                 value={firstName}
                 placeholder=" "
@@ -194,7 +148,7 @@ export default function Signup() {
             <div className={styles.inputBox}>
               <input
                 type="text"
-                onChange={lastNameHandler}
+                onChange={(e) => setLastName(e.target.value)}
                 className={`${styles.loginSignupInput} ${styles.signupInput}`}
                 value={lastName}
                 placeholder=" "
@@ -208,7 +162,7 @@ export default function Signup() {
                 className={`${styles.loginSignupInput} ${styles.signupInput} ${
                   !emailValid || duplicateEmail ? styles.error : ""
                 }`}
-                onChange={emailHandler}
+                onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 placeholder=" "
                 required
@@ -221,7 +175,7 @@ export default function Signup() {
                 className={`${styles.loginSignupInput} ${styles.signupInput} ${
                   confirmePasswordError || !passwordValid ? styles.error : ""
                 }`}
-                onChange={passwordHandler}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder=" "
                 required
@@ -234,7 +188,7 @@ export default function Signup() {
                 className={`${styles.loginSignupInput} ${styles.signupInput} ${
                   confirmePasswordError ? styles.error : ""
                 }`}
-                onChange={confirmPasswordHandler}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
                 placeholder=" "
                 required
@@ -244,58 +198,15 @@ export default function Signup() {
               </span>
             </div>
 
-            <div>
-              <div className={styles.pTagBirthDate}>Birthday:</div>
-              <div className={styles.birthDateParentDivOfSelect}>
-                <span className={styles.birthDateSpanTag}>
-                  <select
-                    name="Month"
-                    required
-                    className={`${styles.birthDateSelect} ${
-                      invalidBirthday ? styles.error : ""
-                    }`}
-                    onChange={monthHandler}
-                  >
-                    <option label="Month" value=""></option>
-                    {allMonths.map((month, index) => (
-                      <option value={index + 1} key={index}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="Day"
-                    required
-                    className={`${styles.birthDateSelect} ${
-                      styles.dayYearSelect
-                    } ${invalidBirthday ? styles.error : ""}`}
-                    onChange={dayHandler}
-                  >
-                    <option label="Day" value=""></option>
-                    {allDays.map((day, index) => (
-                      <option value={day} key={index + 1}>
-                        {day}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="Year"
-                    required
-                    className={`${styles.birthDateSelect} ${
-                      styles.dayYearSelect
-                    } ${invalidBirthday ? styles.error : ""}`}
-                    onChange={yearHandler}
-                  >
-                    <option value="" label="Year"></option>
-                    {allYears.map((year, index) => (
-                      <option value={year} key={index}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </span>
-              </div>
-            </div>
+            <BirthDateSelect
+              howOldFunc={(recievedUserBirthday, recievedYearsSince) => {
+                console.log("recievedUserBirthday", recievedUserBirthday);
+                console.log("recievedYearsSince", recievedYearsSince);
+
+                // setUserBirthday(recievedUserBirthday);
+                // setHowOld(recievedYearsSince);
+              }}
+            />
 
             {!emailValid ? (
               <p className={styles.errorParagraph}>Invalid email!</p>

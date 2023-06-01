@@ -1,10 +1,11 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: "true",
+      required: true,
     },
     myImage: {
       type: String,
@@ -15,7 +16,8 @@ const postSchema = new mongoose.Schema(
       // trim: true,
     },
     userId: {
-      type: String,
+      type: ObjectId,
+      required: true,
     },
   },
   { timestamps: true }

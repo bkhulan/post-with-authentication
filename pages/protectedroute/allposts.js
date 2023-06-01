@@ -1,10 +1,12 @@
 import connectMongoose from "../../utils/connectMongoose";
 
+import { getSession } from "next-auth/react";
 import Image from "next/image";
+import User from "../../models/users";
 import Post from "../../models/posts";
-import jwt from "jsonwebtoken";
 
 import styles from "./allposts.module.css";
+// import jwt from "jsonwebtoken";
 
 export default function Allposts({ alldata }) {
   return (
@@ -17,7 +19,6 @@ export default function Allposts({ alldata }) {
             <div key={data._id} className={styles.imageBox}>
               <Image
                 className={styles.image}
-                // src={`/${data.myImage}`}
                 src={`/userPostImage/${data.myImage}`}
                 alt={data.title}
                 width={800}
@@ -46,12 +47,20 @@ export default function Allposts({ alldata }) {
 export async function getServerSideProps({ req, res }) {
   await connectMongoose();
   console.log("Connected to the database. (POST IMAGE!)");
-  const { cookies } = req;
-  const jwtCookie = cookies.CookieJWT;
 
-  const claims = jwt.verify(jwtCookie, process.env.SECRET);
+  const session = await getSession({ req });
 
-  const post = await Post.find({ userId: claims._id });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        premanent: false,
+      },
+    };
+  }
+
+  const user = await User.findOne({ email: session.user.email });
+  const post = await Post.find({ userId: user._id });
 
   return {
     props: {
@@ -59,3 +68,14 @@ export async function getServerSideProps({ req, res }) {
     },
   };
 }
+
+// ==================================================================================
+
+// JWT ashiglawal ingej hiij boloh
+
+// const { cookies } = req;
+// const jwtCookie = cookies.CookieJWT;
+// const claims = jwt.verify(jwtCookie, process.env.SECRET);
+// const post = await Post.find({ userId: claims._id });
+
+// ==================================================================================
