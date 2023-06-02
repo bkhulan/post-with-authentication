@@ -1,8 +1,10 @@
 import connectMongoose from "../../utils/connectMongoose";
-const jwt = require("jsonwebtoken");
+
 import { FaSignature, FaBirthdayCake } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import moment from "moment";
+// const jwt = require("jsonwebtoken");
+// import moment from "moment";
+import { getSession } from "next-auth/react";
 
 import User from "../../models/users";
 import Head from "next/head";
@@ -24,7 +26,9 @@ function Profile({ dataUser }) {
                 <FaSignature />
               </div>
               <div>
-                <p className={styles.valuesFromData}>{dataUser.firstName} {dataUser.lastName}</p>
+                <p className={styles.valuesFromData}>
+                  {dataUser.firstName} {dataUser.lastName}
+                </p>
                 <p className={styles.properties}>Name</p>
               </div>
             </div>
@@ -61,17 +65,25 @@ export async function getServerSideProps({ req, res }) {
   await connectMongoose();
   console.log("Connected to the database. (Profile!)");
 
-  const { cookies } = req;
-  const jwtCookie = cookies.CookieJWT;
+  const session = await getSession({ req });
+  console.log("SESSION", session);
 
-  const claims = jwt.verify(jwtCookie, process.env.SECRET);
-  const user = await User.findOne({ _id: claims._id });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        premanent: false,
+      },
+    };
+  }
 
-  let parsedUser = JSON.parse(JSON.stringify(user));  
-  let newDateObject = new Date(parsedUser.birthDate);
-  let newStringDate = newDateObject.toISOString().split('T')[0];
+  const user = await User.findOne({ email: session.user.email });
 
-  let copyOfUser = { ...parsedUser};
+  const parsedUser = JSON.parse(JSON.stringify(user));
+  const newBirthDateObject = new Date(parsedUser.birthDate);
+  const newStringDate = newBirthDateObject.toISOString().split("T")[0];
+
+  let copyOfUser = { ...parsedUser };
   copyOfUser.birthDate = newStringDate;
 
   return {
@@ -80,3 +92,19 @@ export async function getServerSideProps({ req, res }) {
     },
   };
 }
+
+// ========================================================
+
+// JWTCookie ashiglay gewel eniig
+
+// const { cookies } = req;
+// const jwtCookie = cookies.CookieJWT;
+
+// const claims = jwt.verify(jwtCookie, process.env.SECRET);
+// const user = await User.findOne({ _id: claims._id });
+
+// let parsedUser = JSON.parse(JSON.stringify(user));
+// let newDateObject = new Date(parsedUser.birthDate);
+// let newStringDate = newDateObject.toISOString().split('T')[0];
+
+// ========================================================

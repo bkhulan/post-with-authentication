@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
+// import axios from "axios";
+import { signIn, signOut } from "next-auth/react";
 
 import Image from "next/image";
 import Head from "next/head";
@@ -14,18 +15,21 @@ export default function Home() {
 
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [errorUser, setErrorUser] = useState("");
 
-  const userEmailHandler = (e) => {
-    setEmail(e.target.value);
-  };
+  async function handleGoogleSignIn() {
+    signIn("google", {
+      callbackUrl: "http://localhost:3000/protectedroute/home",
+    });
+  }
 
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
-  };
+  async function handleGithubSignIn() {
+    signIn("github", {
+      callbackUrl: "http://localhost:3000/protectedroute/home",
+    });
+  }
 
-  const loginButtonHandler = (e) => {
+  async function loginButtonHandler(e) {
     e.preventDefault();
 
     if (userEmail.trim() === "" || password.trim() === "") {
@@ -35,35 +39,47 @@ export default function Home() {
       console.log(password.trim());
     }
 
-    async function loginButtonFunc() {
-      try {
-        const res = await axios.post(
-          "http://localhost:3000/api/requests/login",
-          {
-            email: userEmail,
-            password,
-          }
-        );
-        console.log(res.data, "Successfully sent the data! (Frontend)");
+    const status = await signIn("credentials", {
+      redirect: false,
+      email: userEmail,
+      password,
+      callbackUrl: "/protectedroute/home",
+    });
 
-        setErrorUser("");
+    console.log(status);
 
-        if (res.status === 201) {
-          router.push("/protectedroute/addpost");
-        }
-      } catch (e) {
-        if (e.response && e.response.status === 401) {
-          setErrorUser(e.response.data);
-        }
-        console.log(e, "Error! (Frontend)");
-      }
-    }
-    loginButtonFunc();
-  };
+    if (status.ok) router.push(status.url);
+  }
 
-  const goToSignupPageHandler = () => {
-    myRef.current.classList.add("right-panel-active");
-  };
+  // async function loginButtonFunc() {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:3000/api/requests/login",
+  //       {
+  //         email: userEmail,
+  //         password,
+  //       }
+  //     );
+  //     console.log(res.data, "Successfully sent the data! (Frontend)");
+
+  //     setErrorUser("");
+
+  //     if (res.status === 201) {
+  //       console.log("Successfully logged in!");
+  //       router.push("/protectedroute/home");
+  //     }
+  //   } catch (e) {
+  //     if (e.response && e.response.status === 401) {
+  //       setErrorUser(e.response.data);
+  //     }
+  //     console.log(e, "Error! (Frontend)");
+  //   }
+  // }
+  // loginButtonFunc();
+
+  // const goToSignupPageHandler = () => {
+  //   myRef.current.classList.add("right-panel-active");
+  // };
 
   return (
     <div className={styles.container}>
@@ -83,7 +99,11 @@ export default function Home() {
 
         <div className={styles.mainFormContainer}>
           <form className={styles.formContainer} onSubmit={loginButtonHandler}>
-            <p className={`${styles.title} ${styles.loginTitle} ${styles.loginLogoutTitle}`}>Dream</p>
+            <p
+              className={`${styles.title} ${styles.loginTitle} ${styles.loginLogoutTitle}`}
+            >
+              Dream
+            </p>
 
             <div className={styles.inputBox}>
               <input
@@ -91,7 +111,7 @@ export default function Home() {
                 className={`${styles.loginSignupInput} ${styles.loginInput} ${
                   errorUser === "Email is not registered!" ? styles.error : ""
                 }`}
-                onChange={userEmailHandler}
+                onChange={(e) => setEmail(e.target.value)}
                 value={userEmail}
                 required
                 placeholder=" "
@@ -106,7 +126,7 @@ export default function Home() {
                 className={`${styles.loginSignupInput} ${styles.loginInput} ${
                   errorUser === "Password incorrect!" ? styles.error : ""
                 }`}
-                onChange={passwordHandler}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 required
                 placeholder=" "
@@ -115,9 +135,51 @@ export default function Home() {
             </div>
 
             {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
-            <button className={styles.loginSignupSubmiButton}>Log in</button>
+
+            <div className={styles.allButtonBox}>
+              <button
+                className={`${styles.allFourButtons} ${styles.loginSignupSubmiButton}`}
+              >
+                Log in
+              </button>
+            </div>
+
+            <div className={`${styles.allButtonBox} ${styles.customButtonBox}`}>
+              <button
+                onClick={handleGoogleSignIn}
+                type="button"
+                className={`${styles.allFourButtons} ${styles.buttonCustom}`}
+              >
+                Sign In with Google
+                <Image
+                  src={"/google.svg"}
+                  width={20}
+                  height={20}
+                  className={styles.buttonIcons}
+                  alt="Google icon"
+                ></Image>
+              </button>
+            </div>
+
+            <div className={`${styles.allButtonBox} ${styles.customButtonBox}`}>
+              <button
+                onClick={handleGithubSignIn}
+                type="button"
+                className={`${styles.allFourButtons} ${styles.buttonCustom}`}
+              >
+                Sign In with Github
+                <Image
+                  src={"/github.svg"}
+                  width={20}
+                  height={20}
+                  className={styles.buttonIcons}
+                  alt="Github icon"
+                ></Image>
+              </button>
+            </div>
+
             <Link
-              onClick={goToSignupPageHandler}
+              // onClick={goToSignupPageHandler}
               className={styles.loginSignupLinkButton}
               href="/signup"
             >

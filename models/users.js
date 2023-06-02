@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
@@ -40,7 +40,8 @@ const userSchema = new mongoose.Schema(
       },
     },
     birthDate: {
-      type: Date,
+      // type: Date,
+      type: String,
       required: true,
       trim: true,
     },
@@ -56,33 +57,33 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.methods.generateAuthToken = async function () {
-  const user = this;
+// userSchema.methods.generateAuthToken = async function () {
+//   const user = this;
 
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.SECRET, {
-    expiresIn: 60 * 60 * 24 * 7,
-  });
-  user.tokens = user.tokens.concat({ token });
-  await user.save();
+//   const token = jwt.sign({ _id: user._id.toString() }, process.env.SECRET, {
+//     expiresIn: 60 * 60 * 24 * 7,
+//   });
+//   user.tokens = user.tokens.concat({ token });
+//   await user.save();
   
-  return token;
-};
+//   return token;
+// };
 
-userSchema.statics.findByCredentials = async (email, password) => {
-  const user = await User.findOne({ email });
+// userSchema.statics.findByCredentials = async (email, password) => {
+//   const user = await User.findOne({ email });
 
-  if (!user) {
-    throw new Error("Email is not registered!");
-  }
+//   if (!user) {
+//     throw new Error("Email is not registered!");
+//   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+//   const isMatch = await bcrypt.compare(password, user.password);
 
-  if (!isMatch) {
-    throw new Error("Password incorrect!");
-  }
+//   if (!isMatch) {
+//     throw new Error("Password incorrect!");
+//   }
 
-  return user;
-};
+//   return user;
+// };
 
 userSchema.pre("save", async function (next) {
   const user = this;

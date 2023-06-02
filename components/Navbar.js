@@ -1,6 +1,7 @@
 import Link from "next/link";
-import axios from "axios";
+// import axios from "axios";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 import styles from "./Navbar.module.css";
 import homeStyles from "../styles/Home.module.css";
@@ -8,12 +9,12 @@ import homeStyles from "../styles/Home.module.css";
 export default function Layout({ children }) {
   const router = useRouter();
 
-  const handelLogOut = async () => {
-    const res = await axios.get("/api/requests/logout");
-    console.log("user === ", res);
-    if (res.status === 200) {
-      router.push("/login");
-    }
+  const handelSignOut = async () => {
+    // const res = await axios.get("/api/requests/logout");
+    // if (res.status === 200) {
+    //   router.push("/login");
+    // }
+    signOut();
   };
 
   return (
@@ -24,9 +25,17 @@ export default function Layout({ children }) {
         </div>
         <nav className={styles.navTagLinks}>
           <ul className={styles.ulTagLinks}>
-            <li
-              className={styles.liTagLinks}             
-            >
+            <li className={styles.liTagLinks}>
+              <Link
+                href="/protectedroute/home"
+                className={`${styles.aTagLink} ${
+                  router.pathname == "/protectedroute/home" ? styles.active : ""
+                }`}
+              >
+                Home
+              </Link>
+            </li>
+            <li className={styles.liTagLinks}>
               <Link
                 href="/protectedroute/addpost"
                 className={`${styles.aTagLink} ${
@@ -37,7 +46,7 @@ export default function Layout({ children }) {
               >
                 Post
               </Link>
-              <ul className={styles.dropdownUlTag}>            
+              <ul className={styles.dropdownUlTag}>
                 <li className={styles.dropdownLiTag}>
                   <Link
                     href="/protectedroute/addpost"
@@ -57,9 +66,7 @@ export default function Layout({ children }) {
               </ul>
             </li>
 
-            <li
-              className={styles.liTagLinks}            
-            >
+            <li className={styles.liTagLinks}>
               <Link
                 href="/protectedroute/profile"
                 className={`${styles.aTagLink} ${
@@ -74,7 +81,7 @@ export default function Layout({ children }) {
           </ul>
         </nav>
         <div className={styles.divLogoutButton}>
-          <button className={styles.logoutButton} onClick={handelLogOut}>
+          <button className={styles.logoutButton} onClick={handelSignOut}>
             Log out
           </button>
         </div>

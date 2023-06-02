@@ -1,15 +1,14 @@
-// import { ImImage } from "react-icons/im";
-
 const FormData = require("form-data");
 
 import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Image from "next/image";
+import Head from "next/head";
 import Modal from "../../components/Modal";
 import { IoMdCloudUpload } from "react-icons/io";
 import { AiFillCloseCircle } from "react-icons/ai";
-import Head from "next/head";
+import { getSession } from "next-auth/react";
 
 import styles from "./addpost.module.css";
 
@@ -133,7 +132,7 @@ function Loggedinpost() {
         })
         .catch((e) => {
           console.log(e, "Getting an error!");
-          setSuccessfulPost(false);
+          // setSuccessfulPost(false);
         });
     }
 
@@ -266,3 +265,22 @@ function Loggedinpost() {
 }
 
 export default Loggedinpost;
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        premanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
