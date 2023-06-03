@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
-import BirthDateSelect from "../components/BirthDateSelect";
 
 import { MdCheckCircle } from "react-icons/md";
 
+import BirthDateSelect from "../components/BirthDateSelect";
 import styles from "../styles/Home.module.css";
 
 export default function Signup() {
@@ -18,8 +18,8 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [howOld, setHowOld] = useState(null);
-  const [userBirthday, setUserBirthday] = useState(null);
+  // const [howOld, setHowOld] = useState(null);
+  const [userBirthday, setUserBirthday] = useState("b");
 
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
@@ -56,11 +56,8 @@ export default function Signup() {
       return;
     }
 
-    // let userBirthday = new Date(`${year}-${month}-${day} EDT`);
-
-    // let msSince = today.getTime() - userBirthday.getTime();
-    // let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
-    // let yearsSince = Math.floor(daysSince / 365);
+    console.log("USERBIRTHDDAYY", userBirthday);
+    // console.log("HOWOLD", howOld);
 
     // if (howOld < 16) {
     //   setInvalidBirthday(true);
@@ -75,7 +72,7 @@ export default function Signup() {
           lastName,
           email,
           password,
-          birthDate: userBirthday ? userBirthday : "userBirthday",
+          birthDate: "userBirthday",
         }
       );
 
@@ -100,14 +97,6 @@ export default function Signup() {
       }
     }
   };
-
-  // function recievedHowOldFunc(recievedUserBirthday, recievedYearsSince) {
-  //   setUserBirthday(recievedUserBirthday);
-  //   setHowOld(recievedYearsSince);
-  // }
-
-  // console.log("userBirthday", userBirthday);
-  // console.log("yearsSince", howOld);
 
   return (
     <div className={styles.container}>
@@ -198,14 +187,8 @@ export default function Signup() {
               </span>
             </div>
 
-            <BirthDateSelect
-              howOldFunc={(recievedUserBirthday, recievedYearsSince) => {
-                console.log("recievedUserBirthday", recievedUserBirthday);
-                console.log("recievedYearsSince", recievedYearsSince);
-
-                // setUserBirthday(recievedUserBirthday);
-                // setHowOld(recievedYearsSince);
-              }}
+            <BirthDateSelect userBirthday={userBirthday}
+              setUserBirthday={setUserBirthday}
             />
 
             {!emailValid ? (

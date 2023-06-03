@@ -5,9 +5,7 @@
 .divImageSentence,
 .loginSignupInput,
 .allThreeButtons,
-.loginSignupLinkButton,
-.birthDateSelect,
-.pTagBirthDate {
+.loginSignupLinkButton {
   font-family: "PT Serif", serif;
 }
 
@@ -203,22 +201,6 @@
 
 .loginSignupLinkButton:hover {
   text-decoration: underline;
-}
-
-.birthDateSpanTag {
-  display: inline-block;
-}
-
-.birthDateSelect {
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px;
-  width: 86px;
-  outline: none;
-}
-
-.birthDateSelect:focus {
-  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .dayYearSelect {
