@@ -21,10 +21,11 @@ export default function BirthDateSelect(props) {
   useEffect(() => {
     props.setUserBirthday(dateValue);
   }, [props]);
-
+  
   return (
     <div>
       <div className={styles.pTagBirthDate}>Birthday:</div>
+
       <div className={styles.inputDateParent}>
         <input
           type="date"

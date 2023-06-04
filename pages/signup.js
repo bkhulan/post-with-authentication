@@ -19,7 +19,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // const [howOld, setHowOld] = useState(null);
-  const [userBirthday, setUserBirthday] = useState("b");
+  const [userBirthday, setUserBirthday] = useState("");
 
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
