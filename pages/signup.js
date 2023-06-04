@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
@@ -18,7 +18,6 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // const [howOld, setHowOld] = useState(null);
   const [userBirthday, setUserBirthday] = useState("");
 
   const [emailValid, setEmailValid] = useState(true);
@@ -56,13 +55,24 @@ export default function Signup() {
       return;
     }
 
-    console.log("USERBIRTHDDAYY", userBirthday);
-    // console.log("HOWOLD", howOld);
+    let today = new Date();
 
-    // if (howOld < 16) {
-    //   setInvalidBirthday(true);
-    //   return;
-    // }
+    const takeEachYMD = userBirthday.split("-");
+
+    const takeEachDateValue = new Date(
+      `${takeEachYMD[0]}-${takeEachYMD[1]}-${takeEachYMD[2]} EDT`
+    );
+
+    let msSince = today.getTime() - takeEachDateValue.getTime();
+    let daysSince = Math.floor(msSince / (1000 * 60 * 60 * 24));
+    let age = Math.floor(daysSince / 365);
+
+    console.log("age ========= ", age);
+
+    if (age < 16) {
+      setInvalidBirthday(true);
+      return;
+    }
 
     try {
       const res = await axios.post(
@@ -72,7 +82,7 @@ export default function Signup() {
           lastName,
           email,
           password,
-          birthDate: "userBirthday",
+          birthDate: userBirthday,
         }
       );
 
@@ -187,7 +197,7 @@ export default function Signup() {
               </span>
             </div>
 
-            <BirthDateSelect userBirthday={userBirthday}
+            <BirthDateSelect
               setUserBirthday={setUserBirthday}
             />
 
