@@ -76,7 +76,7 @@ export default function Signup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/requests/adduser",
+        "http://localhost:3000/api/requests/register",
         {
           firstName,
           lastName,

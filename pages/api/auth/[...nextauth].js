@@ -10,6 +10,7 @@ import User from "../../../models/users";
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  // database: process.env.MONGO_URI,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -38,7 +39,7 @@ export const authOptions = {
         );
 
         if (!isMatch) {
-          throw new Error("Password Incorrect!");
+          throw new Error("Password incorrect!");
         }
 
         return user;

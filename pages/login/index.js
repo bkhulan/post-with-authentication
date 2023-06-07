@@ -11,11 +11,12 @@ import styles from "../../styles/Home.module.css";
 
 export default function Home() {
   const router = useRouter();
-  const myRef = useRef();
+  // const myRef = useRef();
 
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorUser, setErrorUser] = useState("");
+
+  const [loginError, setLoginError] = useState("");
 
   async function handleGoogleSignIn() {
     signIn("google", {
@@ -48,38 +49,12 @@ export default function Home() {
 
     console.log(status);
 
-    if (status.ok) router.push(status.url);
+    if (status.ok) {
+      router.push(status.url);
+    } else if (status.error) {
+      setLoginError(status.error);
+    }
   }
-
-  // async function loginButtonFunc() {
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:3000/api/requests/login",
-  //       {
-  //         email: userEmail,
-  //         password,
-  //       }
-  //     );
-  //     console.log(res.data, "Successfully sent the data! (Frontend)");
-
-  //     setErrorUser("");
-
-  //     if (res.status === 201) {
-  //       console.log("Successfully logged in!");
-  //       router.push("/protectedroute/home");
-  //     }
-  //   } catch (e) {
-  //     if (e.response && e.response.status === 401) {
-  //       setErrorUser(e.response.data);
-  //     }
-  //     console.log(e, "Error! (Frontend)");
-  //   }
-  // }
-  // loginButtonFunc();
-
-  // const goToSignupPageHandler = () => {
-  //   myRef.current.classList.add("right-panel-active");
-  // };
 
   return (
     <div className={styles.container}>
@@ -88,7 +63,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.mainTagContainer}>
-        <div ref={myRef} className={`${styles.imageBackground}`}>
+        <div
+          // ref={myRef}
+          className={`${styles.imageBackground}`}
+        >
           <div className={`${styles.divImageSentence}`}>
             <h1>Welcome Back!</h1>
             <p className={styles.pTagImageSentence}>
@@ -109,7 +87,7 @@ export default function Home() {
               <input
                 type="email"
                 className={`${styles.loginSignupInput} ${styles.loginInput} ${
-                  errorUser === "Email is not registered!" ? styles.error : ""
+                  loginError === "Email is not registered!" ? styles.error : ""
                 }`}
                 onChange={(e) => setEmail(e.target.value)}
                 value={userEmail}
@@ -124,7 +102,7 @@ export default function Home() {
               <input
                 type="password"
                 className={`${styles.loginSignupInput} ${styles.loginInput} ${
-                  errorUser === "Password incorrect!" ? styles.error : ""
+                  loginError === "Password incorrect!" ? styles.error : ""
                 }`}
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -134,7 +112,9 @@ export default function Home() {
               <span className={styles.spanLoginSignupInput}>Password</span>
             </div>
 
-            {errorUser && <p className={styles.errorParagraph}>{errorUser}</p>}
+            {loginError && (
+              <p className={styles.errorParagraph}>{loginError}</p>
+            )}
 
             <div className={styles.allButtonBox}>
               <button
@@ -195,3 +175,39 @@ export default function Home() {
 Home.getLayout = function PageLayout(page) {
   return <>{page}</>;
 };
+
+
+
+
+
+
+
+// async function loginButtonFunc() {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:3000/api/requests/login",
+  //       {
+  //         email: userEmail,
+  //         password,
+  //       }
+  //     );
+  //     console.log(res.data, "Successfully sent the data! (Frontend)");
+
+  //     setErrorUser("");
+
+  //     if (res.status === 201) {
+  //       console.log("Successfully logged in!");
+  //       router.push("/protectedroute/home");
+  //     }
+  //   } catch (e) {
+  //     if (e.response && e.response.status === 401) {
+  //       setLoginError(e.response.data);
+  //     }
+  //     console.log(e, "Error! (Frontend)");
+  //   }
+  // }
+  // loginButtonFunc();
+
+  // const goToSignupPageHandler = () => {
+  //   myRef.current.classList.add("right-panel-active");
+  // };
