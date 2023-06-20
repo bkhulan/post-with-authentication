@@ -1,7 +1,7 @@
 import connectMongoose from "../../../utils/connectMongoose";
 import User from "../../../models/users";
 
-export default async function addUser(req, res) {
+export default async function register(req, res) {
   await connectMongoose();
   console.log("Connected to the database!");
 

@@ -4,7 +4,7 @@ import { FaSignature, FaBirthdayCake } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 // const jwt = require("jsonwebtoken");
 // import moment from "moment";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 import User from "../../models/users";
 import Head from "next/head";
@@ -12,54 +12,68 @@ import Head from "next/head";
 import styles from "./Profile.module.css";
 import stylesHome from "../../styles/Home.module.css";
 
-function Profile({ dataUser }) {
+export default function Profile({ dataUser }) {
+  const { data: session } = useSession();
+  console.log("SESSION ==== ", session);
+  
   return (
     <>
       <Head>
         <title>Profile</title>
       </Head>
-      <main className={stylesHome.main}>
-        <section className={styles.profileSection}>
-          <div key={dataUser._id} className={styles.profileSectionDiv}>
-            <div className={styles.columnContainer}>
-              <div className={styles.iconDiv}>
-                <FaSignature />
-              </div>
-              <div>
-                <p className={styles.valuesFromData}>
-                  {dataUser.firstName} {dataUser.lastName}
-                </p>
-                <p className={styles.properties}>Name</p>
-              </div>
-            </div>
 
-            <div className={styles.columnContainer}>
-              <div className={styles.iconDiv}>
-                <MdEmail />
-              </div>
-              <div>
-                <p className={styles.valuesFromData}>{dataUser.email}</p>
-                <p className={styles.properties}>Email</p>
-              </div>
-            </div>
-
-            <div className={styles.columnContainer}>
-              <div className={styles.iconDiv}>
-                <FaBirthdayCake />
-              </div>
-              <div>
-                <p className={styles.valuesFromData}>{dataUser.birthDate}</p>
-                <p className={styles.properties}>Birth date</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+      {NoProviderUserProfile({ dataUser })}
     </>
   );
 }
 
-export default Profile;
+function NoProviderUserProfile({ dataUser }) {
+  return (
+    <main className={stylesHome.main}>
+      <section className={styles.profileSection}>
+        <div key={dataUser._id} className={styles.profileSectionDiv}>
+          <div className={styles.columnContainer}>
+            <div className={styles.iconDiv}>
+              <FaSignature />
+            </div>
+            <div>
+              <p className={styles.valuesFromData}>
+                {dataUser.firstName} {dataUser.lastName}
+              </p>
+              <p className={styles.properties}>Name</p>
+            </div>
+          </div>
+
+          <div className={styles.columnContainer}>
+            <div className={styles.iconDiv}>
+              <MdEmail />
+            </div>
+            <div>
+              <p className={styles.valuesFromData}>{dataUser.email}</p>
+              <p className={styles.properties}>Email</p>
+            </div>
+          </div>
+
+          <div className={styles.columnContainer}>
+            <div className={styles.iconDiv}>
+              <FaBirthdayCake />
+            </div>
+            <div>
+              <p className={styles.valuesFromData}>{dataUser.birthDate}</p>
+              <p className={styles.properties}>Birth date</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+// function UsedProviderUserProfile () {
+//   return (
+
+//   )
+// }
 
 export async function getServerSideProps({ req, res }) {
   await connectMongoose();

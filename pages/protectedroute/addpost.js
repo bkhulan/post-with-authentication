@@ -14,15 +14,15 @@ import styles from "./addpost.module.css";
 
 function Loggedinpost() {
   // const router = useRouter();
-  const inputRef = useRef();
+  // const inputRef = useRef();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [imageInput, setImageInput] = useState(null);
-  const [imageFileName, setImageFileName] = useState(null);
   const [imageFileEmptyError, setImageFileEmptyError] = useState(false);
-
+  
+  const [imageFileName, setImageFileName] = useState(null);
   const [fileURLValue, setfileURLValue] = useState(null);
 
   const [dragFile, setDragFile] = useState(false);
@@ -43,7 +43,7 @@ function Loggedinpost() {
     setDescription(e.target.value);
   };
 
-  let imageHandler = (e) => {
+  const imageHandler = (e) => {
     const file = e.target.files[0];
 
     setImageInput(file);
@@ -119,15 +119,12 @@ function Loggedinpost() {
       })
         .then((res) => {
           console.log("Successfully sent the data to the backend!");
-
           setSuccessfulPostModalShow(true);
 
           // router.replace(router.asPath); // Submit hiinguut zurag shuud garch ireh
-
           // setTimeout(function () {
           //   setSuccessfulPost(false);
           // }, 1000);
-
           // inputRef.current.value = null;
         })
         .catch((e) => {
@@ -220,10 +217,10 @@ function Loggedinpost() {
                   <span className={styles.orSpanTag}>OR</span>
                   <button className={styles.uploadButton}>
                     <input
-                      ref={inputRef}
+                      // ref={inputRef}
                       onChange={imageHandler}
                       type="file"
-                      name="image"
+                      name="image"OK
                       id="picture"
                       accept="image/*"
                       className={styles.postInputFileHidden}
